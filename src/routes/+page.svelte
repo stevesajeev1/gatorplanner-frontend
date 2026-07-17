@@ -1,2 +1,1 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<p class="p-3">This is a description of GatorPlanner, woohoo!</p>
