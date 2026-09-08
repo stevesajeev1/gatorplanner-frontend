@@ -5,9 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTimeType = typeof FilterRuleTimeType[keyof typeof FilterRuleTimeType];
-
+export type FilterRuleTimeType = (typeof FilterRuleTimeType)[keyof typeof FilterRuleTimeType];
 
 export const FilterRuleTimeType = {
-  time: 'time',
+  time: 'time'
 } as const;

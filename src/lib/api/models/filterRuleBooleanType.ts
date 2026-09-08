@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleBooleanType = typeof FilterRuleBooleanType[keyof typeof FilterRuleBooleanType];
-
+export type FilterRuleBooleanType =
+  (typeof FilterRuleBooleanType)[keyof typeof FilterRuleBooleanType];
 
 export const FilterRuleBooleanType = {
-  boolean: 'boolean',
+  boolean: 'boolean'
 } as const;

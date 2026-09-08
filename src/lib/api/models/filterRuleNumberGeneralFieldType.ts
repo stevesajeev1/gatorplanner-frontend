@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleNumberGeneralFieldType = typeof FilterRuleNumberGeneralFieldType[keyof typeof FilterRuleNumberGeneralFieldType];
-
+export type FilterRuleNumberGeneralFieldType =
+  (typeof FilterRuleNumberGeneralFieldType)[keyof typeof FilterRuleNumberGeneralFieldType];
 
 export const FilterRuleNumberGeneralFieldType = {
-  number: 'number',
+  number: 'number'
 } as const;

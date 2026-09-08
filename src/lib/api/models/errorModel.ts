@@ -10,9 +10,9 @@ export interface ErrorModel {
   /** A human-readable explanation specific to this occurrence of the problem. */
   detail?: string;
   /**
-     * Optional list of individual error details
-     * @nullable
-     */
+   * Optional list of individual error details
+   * @nullable
+   */
   errors?: ErrorDetail[] | null;
   /** A URI reference that identifies the specific occurrence of the problem. */
   instance?: string;

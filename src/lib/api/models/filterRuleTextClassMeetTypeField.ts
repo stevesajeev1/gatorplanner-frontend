@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextClassMeetTypeField = typeof FilterRuleTextClassMeetTypeField[keyof typeof FilterRuleTextClassMeetTypeField];
-
+export type FilterRuleTextClassMeetTypeField =
+  (typeof FilterRuleTextClassMeetTypeField)[keyof typeof FilterRuleTextClassMeetTypeField];
 
 export const FilterRuleTextClassMeetTypeField = {
-  meet_type: 'meet_type',
+  meet_type: 'meet_type'
 } as const;

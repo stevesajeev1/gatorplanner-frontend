@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextGeneralFieldType = typeof FilterRuleTextGeneralFieldType[keyof typeof FilterRuleTextGeneralFieldType];
-
+export type FilterRuleTextGeneralFieldType =
+  (typeof FilterRuleTextGeneralFieldType)[keyof typeof FilterRuleTextGeneralFieldType];
 
 export const FilterRuleTextGeneralFieldType = {
-  text: 'text',
+  text: 'text'
 } as const;

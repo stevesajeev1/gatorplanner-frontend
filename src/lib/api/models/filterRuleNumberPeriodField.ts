@@ -5,10 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleNumberPeriodField = typeof FilterRuleNumberPeriodField[keyof typeof FilterRuleNumberPeriodField];
-
+export type FilterRuleNumberPeriodField =
+  (typeof FilterRuleNumberPeriodField)[keyof typeof FilterRuleNumberPeriodField];
 
 export const FilterRuleNumberPeriodField = {
   meet_timesperiod_start: 'meet_times.period_start',
-  meet_timesperiod_end: 'meet_times.period_end',
+  meet_timesperiod_end: 'meet_times.period_end'
 } as const;

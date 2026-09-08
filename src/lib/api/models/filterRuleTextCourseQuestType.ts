@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextCourseQuestType = typeof FilterRuleTextCourseQuestType[keyof typeof FilterRuleTextCourseQuestType];
-
+export type FilterRuleTextCourseQuestType =
+  (typeof FilterRuleTextCourseQuestType)[keyof typeof FilterRuleTextCourseQuestType];
 
 export const FilterRuleTextCourseQuestType = {
-  text: 'text',
+  text: 'text'
 } as const;

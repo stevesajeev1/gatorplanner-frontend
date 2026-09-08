@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextCourseGenEdsValue = typeof FilterRuleTextCourseGenEdsValue[keyof typeof FilterRuleTextCourseGenEdsValue];
-
+export type FilterRuleTextCourseGenEdsValue =
+  (typeof FilterRuleTextCourseGenEdsValue)[keyof typeof FilterRuleTextCourseGenEdsValue];
 
 export const FilterRuleTextCourseGenEdsValue = {
   Biological_Science: 'Biological Science',
@@ -15,5 +15,5 @@ export const FilterRuleTextCourseGenEdsValue = {
   Mathematics: 'Mathematics',
   Composition: 'Composition',
   Humanities: 'Humanities',
-  International: 'International',
+  International: 'International'
 } as const;

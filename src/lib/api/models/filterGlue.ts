@@ -5,10 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterGlue = typeof FilterGlue[keyof typeof FilterGlue];
-
+export type FilterGlue = (typeof FilterGlue)[keyof typeof FilterGlue];
 
 export const FilterGlue = {
   and: 'and',
-  or: 'or',
+  or: 'or'
 } as const;

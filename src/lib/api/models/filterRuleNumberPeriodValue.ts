@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleNumberPeriodValue = typeof FilterRuleNumberPeriodValue[keyof typeof FilterRuleNumberPeriodValue];
-
+export type FilterRuleNumberPeriodValue =
+  (typeof FilterRuleNumberPeriodValue)[keyof typeof FilterRuleNumberPeriodValue];
 
 export const FilterRuleNumberPeriodValue = {
   NUMBER_1: '1',
@@ -22,5 +22,5 @@ export const FilterRuleNumberPeriodValue = {
   NUMBER_11: '11',
   E1: 'E1',
   E2: 'E2',
-  E3: 'E3',
+  E3: 'E3'
 } as const;

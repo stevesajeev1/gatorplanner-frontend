@@ -4,9 +4,7 @@
  * GatorPlanner API
  * OpenAPI spec version: 1.0.0
  */
-import {
-  createQuery
-} from '@tanstack/svelte-query';
+import { createQuery } from '@tanstack/svelte-query';
 import type {
   CreateQueryOptions,
   CreateQueryResult,
@@ -16,131 +14,147 @@ import type {
   QueryKey
 } from '@tanstack/svelte-query';
 
-import type {
-  ErrorModel
-} from '../../models';
+import type { ErrorModel } from '../../models';
 
 import { customFetch } from '../../mutators/custom-fetch.ts';
 
 export type HTTPStatusCode1xx = 100 | 101 | 102 | 103;
 export type HTTPStatusCode2xx = 200 | 201 | 202 | 203 | 204 | 205 | 206 | 207;
 export type HTTPStatusCode3xx = 300 | 301 | 302 | 303 | 304 | 305 | 307 | 308;
-export type HTTPStatusCode4xx = 400 | 401 | 402 | 403 | 404 | 405 | 406 | 407 | 408 | 409 | 410 | 411 | 412 | 413 | 414 | 415 | 416 | 417 | 418 | 419 | 420 | 421 | 422 | 423 | 424 | 426 | 428 | 429 | 431 | 451;
+export type HTTPStatusCode4xx =
+  | 400
+  | 401
+  | 402
+  | 403
+  | 404
+  | 405
+  | 406
+  | 407
+  | 408
+  | 409
+  | 410
+  | 411
+  | 412
+  | 413
+  | 414
+  | 415
+  | 416
+  | 417
+  | 418
+  | 419
+  | 420
+  | 421
+  | 422
+  | 423
+  | 424
+  | 426
+  | 428
+  | 429
+  | 431
+  | 451;
 export type HTTPStatusCode5xx = 500 | 501 | 502 | 503 | 504 | 505 | 507 | 511;
-export type HTTPStatusCodes = HTTPStatusCode1xx | HTTPStatusCode2xx | HTTPStatusCode3xx | HTTPStatusCode4xx | HTTPStatusCode5xx;
-
+export type HTTPStatusCodes =
+  HTTPStatusCode1xx | HTTPStatusCode2xx | HTTPStatusCode3xx | HTTPStatusCode4xx | HTTPStatusCode5xx;
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-
-
 export type pingResponse200 = {
-  data: string
-  status: 200
-}
+  data: string;
+  status: 200;
+};
 
 export type pingResponseDefault = {
-  data: ErrorModel
-  status: Exclude<HTTPStatusCodes, 200>
-}
-
-export type pingResponseSuccess = (pingResponse200) & {
-  headers: Headers;
-};
-export type pingResponseError = (pingResponseDefault) & {
-  headers: Headers;
+  data: ErrorModel;
+  status: Exclude<HTTPStatusCodes, 200>;
 };
 
-export type pingResponse = (pingResponseSuccess | pingResponseError)
+export type pingResponseSuccess = pingResponse200 & {
+  headers: Headers;
+};
+export type pingResponseError = pingResponseDefault & {
+  headers: Headers;
+};
+
+export type pingResponse = pingResponseSuccess | pingResponseError;
 
 export const getPingUrl = () => {
-
-
-
-
-  return `/ping`
-}
+  return `/ping`;
+};
 
 /**
  * Health Check
  * @summary Ping
  */
-export const ping = async ( options?: Parameters<typeof customFetch>[1]): Promise<pingResponse> => {
-
-  return customFetch<pingResponse>(getPingUrl(),
-  {
+export const ping = async (options?: Parameters<typeof customFetch>[1]): Promise<pingResponse> => {
+  return customFetch<pingResponse>(getPingUrl(), {
     ...options,
     method: 'GET'
-
-
-  }
-);}
-
-
-
-
+  });
+};
 
 export const getPingQueryKey = () => {
-    return [
-    `/ping`
-    ] as const;
-    }
+  return [`/ping`] as const;
+};
 
+export const getPingQueryOptions = <
+  TData = Awaited<ReturnType<typeof ping>>,
+  TError = ErrorModel
+>(options?: {
+  query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof ping>>, TError, TData>>;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
 
-export const getPingQueryOptions = <TData = Awaited<ReturnType<typeof ping>>, TError = ErrorModel>( options?: { query?:Partial<CreateQueryOptions<Awaited<ReturnType<typeof ping>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-) => {
+  const queryKey = queryOptions?.queryKey ?? getPingQueryKey();
 
-const {query: queryOptions, request: requestOptions} = options ?? {};
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof ping>>> = ({ signal }) =>
+    ping({ signal, ...requestOptions });
 
-  const queryKey =  queryOptions?.queryKey ?? getPingQueryKey();
+  return { queryKey, queryFn, ...queryOptions } as CreateQueryOptions<
+    Awaited<ReturnType<typeof ping>>,
+    TError,
+    TData
+  > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof ping>>> = ({ signal }) => ping({ signal, ...requestOptions });
-
-
-
-
-
-   return  { queryKey, queryFn, ...queryOptions} as CreateQueryOptions<Awaited<ReturnType<typeof ping>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type PingQueryResult = NonNullable<Awaited<ReturnType<typeof ping>>>
-export type PingQueryError = ErrorModel
-
+export type PingQueryResult = NonNullable<Awaited<ReturnType<typeof ping>>>;
+export type PingQueryError = ErrorModel;
 
 /**
  * @summary Ping
  */
 
 export function createPing<TData = Awaited<ReturnType<typeof ping>>, TError = ErrorModel>(
-  options?: () => { query?:Partial<CreateQueryOptions<Awaited<ReturnType<typeof ping>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
- , queryClient?: () => QueryClient
- ): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  options?: () => {
+    query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof ping>>, TError, TData>>;
+    request?: SecondParameter<typeof customFetch>;
+  },
+  queryClient?: () => QueryClient
+): CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+  const query = createQuery(
+    () => getPingQueryOptions(options?.()),
+    queryClient
+  ) as CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-
-
-  const query = createQuery(() => getPingQueryOptions(options?.()), queryClient) as CreateQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  return query
+  return query;
 }
 
 /**
  * @summary Ping
  */
-export const prefetchPingQuery = async <TData = Awaited<ReturnType<typeof ping>>, TError = ErrorModel>(
- queryClient: QueryClient,  options?: { query?:Partial<CreateQueryOptions<Awaited<ReturnType<typeof ping>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
-
-  ): Promise<QueryClient> => {
-
-  const queryOptions = getPingQueryOptions(options)
+export const prefetchPingQuery = async <
+  TData = Awaited<ReturnType<typeof ping>>,
+  TError = ErrorModel
+>(
+  queryClient: QueryClient,
+  options?: {
+    query?: Partial<CreateQueryOptions<Awaited<ReturnType<typeof ping>>, TError, TData>>;
+    request?: SecondParameter<typeof customFetch>;
+  }
+): Promise<QueryClient> => {
+  const queryOptions = getPingQueryOptions(options);
 
   await queryClient.prefetchQuery(queryOptions);
 
   return queryClient;
-}
-
-
-
-
-
+};

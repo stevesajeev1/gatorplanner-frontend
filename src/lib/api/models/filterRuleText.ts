@@ -10,4 +10,9 @@ import type { FilterRuleTextCourseMeetDays } from './filterRuleTextCourseMeetDay
 import type { FilterRuleTextCourseQuest } from './filterRuleTextCourseQuest.ts';
 import type { FilterRuleTextGeneralField } from './filterRuleTextGeneralField.ts';
 
-export type FilterRuleText = FilterRuleTextClassMeetType | FilterRuleTextCourseGenEds | FilterRuleTextCourseQuest | FilterRuleTextCourseMeetDays | FilterRuleTextGeneralField;
+export type FilterRuleText =
+  | FilterRuleTextClassMeetType
+  | FilterRuleTextCourseGenEds
+  | FilterRuleTextCourseQuest
+  | FilterRuleTextCourseMeetDays
+  | FilterRuleTextGeneralField;

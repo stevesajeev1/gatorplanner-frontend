@@ -5,11 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleBooleanField = typeof FilterRuleBooleanField[keyof typeof FilterRuleBooleanField];
-
+export type FilterRuleBooleanField =
+  (typeof FilterRuleBooleanField)[keyof typeof FilterRuleBooleanField];
 
 export const FilterRuleBooleanField = {
   course_is_lab: 'course_is_lab',
   course_is_ai: 'course_is_ai',
-  course_is_honors: 'course_is_honors',
+  course_is_honors: 'course_is_honors'
 } as const;

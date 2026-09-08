@@ -5,10 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleBooleanFilter = typeof FilterRuleBooleanFilter[keyof typeof FilterRuleBooleanFilter];
-
+export type FilterRuleBooleanFilter =
+  (typeof FilterRuleBooleanFilter)[keyof typeof FilterRuleBooleanFilter];
 
 export const FilterRuleBooleanFilter = {
   equal: 'equal',
-  notEqual: 'notEqual',
+  notEqual: 'notEqual'
 } as const;

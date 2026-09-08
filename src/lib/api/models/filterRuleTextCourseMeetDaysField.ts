@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextCourseMeetDaysField = typeof FilterRuleTextCourseMeetDaysField[keyof typeof FilterRuleTextCourseMeetDaysField];
-
+export type FilterRuleTextCourseMeetDaysField =
+  (typeof FilterRuleTextCourseMeetDaysField)[keyof typeof FilterRuleTextCourseMeetDaysField];
 
 export const FilterRuleTextCourseMeetDaysField = {
-  meet_timesdays: 'meet_times.days',
+  meet_timesdays: 'meet_times.days'
 } as const;

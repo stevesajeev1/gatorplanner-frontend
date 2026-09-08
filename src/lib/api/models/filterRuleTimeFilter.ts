@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTimeFilter = typeof FilterRuleTimeFilter[keyof typeof FilterRuleTimeFilter];
-
+export type FilterRuleTimeFilter = (typeof FilterRuleTimeFilter)[keyof typeof FilterRuleTimeFilter];
 
 export const FilterRuleTimeFilter = {
   equal: 'equal',
@@ -14,5 +13,5 @@ export const FilterRuleTimeFilter = {
   greater: 'greater',
   less: 'less',
   greaterOrEqual: 'greaterOrEqual',
-  lessOrEqual: 'lessOrEqual',
+  lessOrEqual: 'lessOrEqual'
 } as const;

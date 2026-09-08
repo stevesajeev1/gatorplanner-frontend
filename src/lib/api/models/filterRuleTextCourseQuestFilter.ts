@@ -5,10 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextCourseQuestFilter = typeof FilterRuleTextCourseQuestFilter[keyof typeof FilterRuleTextCourseQuestFilter];
-
+export type FilterRuleTextCourseQuestFilter =
+  (typeof FilterRuleTextCourseQuestFilter)[keyof typeof FilterRuleTextCourseQuestFilter];
 
 export const FilterRuleTextCourseQuestFilter = {
   equal: 'equal',
-  notEqual: 'notEqual',
+  notEqual: 'notEqual'
 } as const;

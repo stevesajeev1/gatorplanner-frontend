@@ -5,12 +5,12 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextClassMeetTypeValue = typeof FilterRuleTextClassMeetTypeValue[keyof typeof FilterRuleTextClassMeetTypeValue];
-
+export type FilterRuleTextClassMeetTypeValue =
+  (typeof FilterRuleTextClassMeetTypeValue)[keyof typeof FilterRuleTextClassMeetTypeValue];
 
 export const FilterRuleTextClassMeetTypeValue = {
   Primarily_Classroom: 'Primarily Classroom',
   Hybrid: 'Hybrid',
   'Online_(80-99%)': 'Online (80-99%)',
-  'Online_(100%)': 'Online (100%)',
+  'Online_(100%)': 'Online (100%)'
 } as const;

@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleNumberGeneralFieldFilter = typeof FilterRuleNumberGeneralFieldFilter[keyof typeof FilterRuleNumberGeneralFieldFilter];
-
+export type FilterRuleNumberGeneralFieldFilter =
+  (typeof FilterRuleNumberGeneralFieldFilter)[keyof typeof FilterRuleNumberGeneralFieldFilter];
 
 export const FilterRuleNumberGeneralFieldFilter = {
   equal: 'equal',
@@ -14,5 +14,5 @@ export const FilterRuleNumberGeneralFieldFilter = {
   greater: 'greater',
   less: 'less',
   greaterOrEqual: 'greaterOrEqual',
-  lessOrEqual: 'lessOrEqual',
+  lessOrEqual: 'lessOrEqual'
 } as const;

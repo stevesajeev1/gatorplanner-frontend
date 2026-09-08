@@ -5,10 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTimeField = typeof FilterRuleTimeField[keyof typeof FilterRuleTimeField];
-
+export type FilterRuleTimeField = (typeof FilterRuleTimeField)[keyof typeof FilterRuleTimeField];
 
 export const FilterRuleTimeField = {
   meet_timestime_start: 'meet_times.time_start',
-  meet_timestime_end: 'meet_times.time_end',
+  meet_timestime_end: 'meet_times.time_end'
 } as const;

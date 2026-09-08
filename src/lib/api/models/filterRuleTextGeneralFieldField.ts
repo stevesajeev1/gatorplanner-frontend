@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextGeneralFieldField = typeof FilterRuleTextGeneralFieldField[keyof typeof FilterRuleTextGeneralFieldField];
-
+export type FilterRuleTextGeneralFieldField =
+  (typeof FilterRuleTextGeneralFieldField)[keyof typeof FilterRuleTextGeneralFieldField];
 
 export const FilterRuleTextGeneralFieldField = {
   course_code: 'course_code',
@@ -14,5 +14,5 @@ export const FilterRuleTextGeneralFieldField = {
   course_name: 'course_name',
   course_department: 'course_department',
   meet_timesbuilding: 'meet_times.building',
-  instructorsname: 'instructors.name',
+  instructorsname: 'instructors.name'
 } as const;

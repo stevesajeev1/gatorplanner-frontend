@@ -5,10 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type SearchClassesRequestFilterGlue = typeof SearchClassesRequestFilterGlue[keyof typeof SearchClassesRequestFilterGlue];
-
+export type SearchClassesRequestFilterGlue =
+  (typeof SearchClassesRequestFilterGlue)[keyof typeof SearchClassesRequestFilterGlue];
 
 export const SearchClassesRequestFilterGlue = {
   and: 'and',
-  or: 'or',
+  or: 'or'
 } as const;

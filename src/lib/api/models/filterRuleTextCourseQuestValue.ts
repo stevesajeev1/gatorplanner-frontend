@@ -5,12 +5,12 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextCourseQuestValue = typeof FilterRuleTextCourseQuestValue[keyof typeof FilterRuleTextCourseQuestValue];
-
+export type FilterRuleTextCourseQuestValue =
+  (typeof FilterRuleTextCourseQuestValue)[keyof typeof FilterRuleTextCourseQuestValue];
 
 export const FilterRuleTextCourseQuestValue = {
   Quest_1: 'Quest 1',
   Quest_2: 'Quest 2',
   Quest_3: 'Quest 3',
-  Quest_4: 'Quest 4',
+  Quest_4: 'Quest 4'
 } as const;

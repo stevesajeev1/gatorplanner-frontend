@@ -6,12 +6,12 @@
  */
 
 export type SearchClassesParams = {
-/**
- * @minimum 0
- */
-limit?: number;
-/**
- * @minimum 0
- */
-offset?: number;
+  /**
+   * @minimum 0
+   */
+  limit?: number;
+  /**
+   * @minimum 0
+   */
+  offset?: number;
 };

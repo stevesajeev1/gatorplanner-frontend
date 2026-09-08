@@ -5,8 +5,8 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleNumberPeriodFilter = typeof FilterRuleNumberPeriodFilter[keyof typeof FilterRuleNumberPeriodFilter];
-
+export type FilterRuleNumberPeriodFilter =
+  (typeof FilterRuleNumberPeriodFilter)[keyof typeof FilterRuleNumberPeriodFilter];
 
 export const FilterRuleNumberPeriodFilter = {
   equal: 'equal',
@@ -14,5 +14,5 @@ export const FilterRuleNumberPeriodFilter = {
   greater: 'greater',
   less: 'less',
   greaterOrEqual: 'greaterOrEqual',
-  lessOrEqual: 'lessOrEqual',
+  lessOrEqual: 'lessOrEqual'
 } as const;

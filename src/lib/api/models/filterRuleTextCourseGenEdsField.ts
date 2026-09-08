@@ -5,9 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextCourseGenEdsField = typeof FilterRuleTextCourseGenEdsField[keyof typeof FilterRuleTextCourseGenEdsField];
-
+export type FilterRuleTextCourseGenEdsField =
+  (typeof FilterRuleTextCourseGenEdsField)[keyof typeof FilterRuleTextCourseGenEdsField];
 
 export const FilterRuleTextCourseGenEdsField = {
-  course_gen_eds: 'course_gen_eds',
+  course_gen_eds: 'course_gen_eds'
 } as const;

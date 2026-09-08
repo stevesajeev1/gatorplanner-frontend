@@ -5,10 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextClassMeetTypeFilter = typeof FilterRuleTextClassMeetTypeFilter[keyof typeof FilterRuleTextClassMeetTypeFilter];
-
+export type FilterRuleTextClassMeetTypeFilter =
+  (typeof FilterRuleTextClassMeetTypeFilter)[keyof typeof FilterRuleTextClassMeetTypeFilter];
 
 export const FilterRuleTextClassMeetTypeFilter = {
   equal: 'equal',
-  notEqual: 'notEqual',
+  notEqual: 'notEqual'
 } as const;

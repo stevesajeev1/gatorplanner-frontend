@@ -5,10 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export type FilterRuleTextGeneralFieldFilter = typeof FilterRuleTextGeneralFieldFilter[keyof typeof FilterRuleTextGeneralFieldFilter];
-
+export type FilterRuleTextGeneralFieldFilter =
+  (typeof FilterRuleTextGeneralFieldFilter)[keyof typeof FilterRuleTextGeneralFieldFilter];
 
 export const FilterRuleTextGeneralFieldFilter = {
   equal: 'equal',
-  notEqual: 'notEqual',
+  notEqual: 'notEqual'
 } as const;
