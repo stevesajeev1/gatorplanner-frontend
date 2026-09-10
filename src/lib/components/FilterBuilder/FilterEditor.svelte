@@ -1,5 +1,5 @@
 <script lang="ts" generics="F extends readonly Field[]">
-	import type { _Rule, Field, Options } from './FilterBuilder';
+	import { getFilters, type _Rule, type Field, type Options } from './FilterBuilder';
 	import * as Form from '$lib/components/ui/form/index.js';
 	import * as Select from '$lib/components/ui/select/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
@@ -29,12 +29,14 @@
 			filter: rule.filter,
 			value: String(rule.value)
 		},
-		{
-			validators: zod4(ruleSchema)
-		}
+		// {
+		// 	validators: zod4(ruleSchema)
+		// }
 	);
 
 	const { form: formData } = form;
+
+	const filters = $derived(getFilters($formData.field))
 
 	const hasOptions = (field: string): field is keyof Options<F> => {
 		return field in options;
@@ -62,16 +64,16 @@
 		<Form.Field {form} name="filter">
 			<Form.Control>
 				<Form.Label>Filter</Form.Label>
-				<!-- <Select.Root type="single" bind:value={$formData.field}>
+				<Select.Root type="single" bind:value={$formData.filter}>
 					<Select.Trigger class="w-full">
-						{fields.find((f) => f.id === $formData.field)!.label}
+						{$formData.filter}
 					</Select.Trigger>
 					<Select.Content>
-						{#each fields as field}
-							<Select.Item value={field.id}>{field.label}</Select.Item>
+						{#each filters as filter}
+							<Select.Item value={filter}>{filter}</Select.Item>
 						{/each}
 					</Select.Content>
-				</Select.Root> -->
+				</Select.Root>
 			</Form.Control>
 		</Form.Field>
 
