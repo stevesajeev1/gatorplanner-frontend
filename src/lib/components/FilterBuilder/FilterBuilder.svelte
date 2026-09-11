@@ -1,59 +1,58 @@
 <script lang="ts" generics="F extends readonly Field[]">
-	import Plus from '@lucide/svelte/icons/plus';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import FilterRule from './FilterRule.svelte';
-	import type { Field, _Filter, Options } from './FilterBuilder';
+  import Plus from '@lucide/svelte/icons/plus';
+  import { Button } from '$lib/components/ui/button/index.js';
+  import FilterRule from './FilterRule.svelte';
+  import {
+    type Field,
+    type _Filter,
+    type Options,
+    getFilters,
+    type _Rule,
+    getDefaultValue,
+    toFilter
+  } from './FilterBuilder';
+  import type { Filter } from '$lib/api/models';
 
-	type Props = {
-		fields: F;
-		options: Options<F>;
-		disabled?: boolean;
-	};
+  type Props = {
+    fields: F;
+    options: Options<F>;
+    hidden?: boolean;
+    disabled?: boolean;
+  };
 
-	let { fields, options, disabled = false }: Props = $props();
+  let { fields, options, hidden = false, disabled = false }: Props = $props();
 
-	let filter = $state<_Filter | null>({
-		glue: 'or',
-		rules: [
-			{
-				glue: 'and',
-				rules: [
-					{
-						field: fields[0],
-						filter: 'equal',
-						value: 'Alex'
-					},
-					{
-						field: fields[1],
-						filter: 'greater',
-						value: 4
-					},
-					{
-						field: fields[1],
-						filter: 'less',
-						value: 20
-					}
-				]
-			},
-			{
-				field: fields[1],
-				filter: 'equal',
-				value: 3
-			}
-		]
-	});
+  let filter = $state<_Filter | null>(null);
 
-	const deleteFilter = () => {
-		filter = null;
-	}
+  const createFilter = () => {
+    filter = {
+      glue: 'or',
+      rules: [
+        {
+          field: fields[0],
+          filter: getFilters(fields[0].id)[0].value as _Rule['filter'],
+          value: getDefaultValue(fields[0], options) as _Rule['value']
+        }
+      ]
+    };
+  };
+
+  const deleteFilter = () => {
+    filter = null;
+  };
+
+  export const getFilter = (): Filter | null => {
+    if (filter === null) return null;
+    return toFilter(filter);
+  };
 </script>
 
-<div class="flex items-center gap-2 overflow-x-auto *:shrink-0 pb-2">
-	{#if filter === null}
-		<Button variant="outline" size="sm">
-			<Plus /> Add Filter
-		</Button>
-	{:else}
-		<FilterRule {filter} {fields} {options} {deleteFilter} />
-	{/if}
+<div class="flex items-center gap-2 overflow-x-auto pb-2 *:shrink-0 {!hidden && 'hidden'}">
+  {#if filter === null}
+    <Button variant="outline" size="sm" onclick={createFilter} {disabled}>
+      <Plus /> Add Filter
+    </Button>
+  {:else}
+    <FilterRule bind:filter {fields} {options} {deleteFilter} {disabled} />
+  {/if}
 </div>

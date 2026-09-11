@@ -10,6 +10,7 @@
   import { resolve } from '$app/paths';
 
   import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+  import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
 
   let { children } = $props();
 
@@ -29,7 +30,7 @@
     <!-- Header -->
     <div class="flex items-center gap-2 p-3">
       <!-- Title -->
-      <a class="text-3xl" href={resolve('/')}>
+      <a class="flex text-3xl" href={resolve('/')}>
         <span class="text-orange-500">Gator</span>
         <span class="text-blue-500">Planner</span>
       </a>
@@ -59,4 +60,5 @@
       <span>Made with ❤️ by Steve Sajeev</span>
     </div>
   </div>
+  <SvelteQueryDevtools initialIsOpen={false} />
 </QueryClientProvider>
