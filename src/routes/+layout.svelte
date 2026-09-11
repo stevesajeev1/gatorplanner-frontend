@@ -4,11 +4,13 @@
 
   import * as NavigationMenu from '$lib/components/ui/navigation-menu/index.js';
   import { Separator } from '$lib/components/ui/separator';
+  import { getCurrentTerm } from '$lib/utils/term';
 
   import { browser } from '$app/environment';
   import { resolve } from '$app/paths';
 
   import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+  import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
 
   let { children } = $props();
 
@@ -28,7 +30,10 @@
     <!-- Header -->
     <div class="flex items-center gap-2 p-3">
       <!-- Title -->
-      <a class="text-3xl" href={resolve('/')}>GatorPlanner</a>
+      <a class="flex text-3xl" href={resolve('/')}>
+        <span class="text-orange-500">Gator</span>
+        <span class="text-blue-500">Planner</span>
+      </a>
       <div class="grow"></div>
       <!-- Navigation -->
       <NavigationMenu.Root>
@@ -37,7 +42,10 @@
             <NavigationMenu.Link href={resolve('/degree')}>Degree Plan</NavigationMenu.Link>
           </NavigationMenu.Item>
           <NavigationMenu.Item>
-            <NavigationMenu.Link href={resolve('/semester')}>Semester Plan</NavigationMenu.Link>
+            <NavigationMenu.Link
+              href={resolve('/semester/[term=terms]', { term: getCurrentTerm() })}
+              >Semester Plan</NavigationMenu.Link
+            >
           </NavigationMenu.Item>
         </NavigationMenu.List>
       </NavigationMenu.Root>
@@ -55,4 +63,5 @@
       <span>Made with ❤️ by Steve Sajeev</span>
     </div>
   </div>
+  <SvelteQueryDevtools initialIsOpen={false} />
 </QueryClientProvider>
