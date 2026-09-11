@@ -21,7 +21,11 @@
     type SearchClassesRequest
   } from '$lib/api/models';
 
-  import { createSearchClassesInfinite } from '$lib/api/endpoints';
+  import {
+    createListBuildings,
+    createListDepartments,
+    createSearchClassesInfinite
+  } from '$lib/api/endpoints';
 
   let { params }: PageProps = $props();
 
@@ -69,7 +73,11 @@
     U: 'Sunday'
   };
 
-  const options = {
+  // Fetch building and department options
+  const buildings = createListBuildings();
+  const departments = createListDepartments();
+
+  const options = $derived({
     meet_type: Object.values(FilterRuleTextClassMeetTypeValue).map((value) => ({
       value
     })),
@@ -93,8 +101,16 @@
 
     'meet_times.period_end': Object.values(FilterRuleNumberPeriodValue).map((value) => ({
       value
-    }))
-  } as const satisfies Options<typeof fields>;
+    })),
+
+    'meet_times.building': buildings.isSuccess
+      ? (buildings.data.data as string[]).map((value) => ({ value }))
+      : [],
+
+    course_department: departments.isSuccess
+      ? (departments.data.data as string[]).map((value) => ({ value }))
+      : []
+  }) satisfies Options<typeof fields>;
 
   const classes = createSearchClassesInfinite(
     () => parseInt(params.term),

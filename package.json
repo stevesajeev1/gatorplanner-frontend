@@ -13,7 +13,7 @@
     "lint:check": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "generate": "orval && prettier --write \"src/api/endpoints/**/*.ts\" \"src/api/models/**/*.ts\""
+    "generate": "orval && prettier --write \"src/lib/api/endpoints/**/*.ts\" \"src/lib/api/models/**/*.ts\""
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
