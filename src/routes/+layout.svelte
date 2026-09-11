@@ -10,7 +10,7 @@
   import { resolve } from '$app/paths';
 
   import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
-  import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools'
+  import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
 
   let { children } = $props();
 
@@ -42,7 +42,10 @@
             <NavigationMenu.Link href={resolve('/degree')}>Degree Plan</NavigationMenu.Link>
           </NavigationMenu.Item>
           <NavigationMenu.Item>
-            <NavigationMenu.Link href={resolve('/semester/[term=terms]', { term: getCurrentTerm() })}>Semester Plan</NavigationMenu.Link>
+            <NavigationMenu.Link
+              href={resolve('/semester/[term=terms]', { term: getCurrentTerm() })}
+              >Semester Plan</NavigationMenu.Link
+            >
           </NavigationMenu.Item>
         </NavigationMenu.List>
       </NavigationMenu.Root>

@@ -21,7 +21,6 @@
 
   let { rule = $bindable(), fields, options }: Props = $props();
 
-  // svelte-ignore state_referenced_locally
   const initialData: FormData = {
     field: rule.field.id,
     filter: rule.filter,
@@ -57,7 +56,7 @@
     rule.field = selectedField as F[number];
     rule.filter = $formData.filter as typeof rule.filter;
     switch (selectedField.type) {
-      case 'number':
+      case 'number': {
         if (
           selectedField.id === 'meet_times.period_start' ||
           selectedField.id === 'meet_times.period_end'
@@ -71,10 +70,12 @@
 
         rule.value = value as typeof rule.value;
         break;
-      case 'boolean':
+      }
+      case 'boolean': {
         rule.value = ($formData.value === 'true') as typeof rule.value;
         break;
-      case 'time':
+      }
+      case 'time': {
         if ($formData.value.length > 'HH:MM'.length) {
           rule.value = $formData.value.substring(
             0,
@@ -84,9 +85,11 @@
           rule.value = $formData.value as typeof rule.value;
         }
         break;
-      case 'text':
+      }
+      case 'text': {
         rule.value = $formData.value as typeof rule.value;
         break;
+      }
     }
   });
 </script>
@@ -102,7 +105,7 @@
         </Select.Trigger>
 
         <Select.Content class="max-h-75">
-          {#each fields as field}
+          {#each fields as field (field.id)}
             <Select.Item value={field.id}>
               {field.label}
             </Select.Item>
@@ -123,7 +126,7 @@
           </Select.Trigger>
 
           <Select.Content>
-            {#each filters as filter}
+            {#each filters as filter (filter.value)}
               <Select.Item value={filter.value}>
                 {filter.label}
               </Select.Item>
@@ -147,7 +150,7 @@
             </Select.Trigger>
 
             <Select.Content>
-              {#each getOptions($formData.field) as option}
+              {#each getOptions($formData.field) as option (option.value)}
                 <Select.Item value={String(option.value)}>
                   {option.label ?? option.value}
                 </Select.Item>

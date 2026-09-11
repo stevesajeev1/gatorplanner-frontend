@@ -157,7 +157,7 @@ export function getDefaultValue<F extends Field>(field: F, options: Options<F[]>
 export const toFilter = (filter: _Filter): Filter => {
   return {
     glue: filter.glue,
-    rules: filter.rules.map(r => {
+    rules: filter.rules.map((r) => {
       if (isFilter(r)) {
         return toFilter(r);
       }
@@ -168,5 +168,5 @@ export const toFilter = (filter: _Filter): Filter => {
         value: r.value
       } as FilterRule;
     })
-  }
-}
+  };
+};

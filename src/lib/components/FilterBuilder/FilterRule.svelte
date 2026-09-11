@@ -76,10 +76,10 @@
 
   $effect(() => {
     if (disabled) editing = null;
-  })
+  });
 </script>
 
-{#each filter.rules as rule, i}
+{#each filter.rules as rule, i (i)}
   {#if i > 0}
     <Button
       variant="outline"
@@ -93,12 +93,18 @@
   {/if}
   {#if isFilter(rule)}
     <span class="text-2xl">(</span>
-    <FilterRule bind:filter={filter.rules[i] as _Filter} {fields} {options} deleteFilter={() => deleteRule(i)} />
+    <FilterRule
+      bind:filter={filter.rules[i] as _Filter}
+      {fields}
+      {options}
+      deleteFilter={() => deleteRule(i)}
+    />
     <span class="text-2xl">)</span>
   {:else}
     <div
       bind:this={customAnchors[i]}
-      class="flex items-center gap-1.5 rounded-sm bg-gray-100 p-2 text-sm {disabled && "opacity-75"}"
+      class="flex items-center gap-1.5 rounded-sm bg-gray-100 p-2 text-sm {disabled &&
+        'opacity-75'}"
     >
       <span class="font-semibold">{rule.field.label}</span>
       <span>{getFilterLabel(rule.filter).label}</span>
