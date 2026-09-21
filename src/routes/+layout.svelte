@@ -5,6 +5,9 @@
   import * as NavigationMenu from '$lib/components/ui/navigation-menu/index.js';
   import { Separator } from '$lib/components/ui/separator';
   import { getCurrentTerm } from '$lib/utils/term';
+  import LinkedinIcon from '@iconify-svelte/fa6-brands/linkedin';
+  import GithubIcon from '@iconify-svelte/fa6-brands/github';
+  import { Button } from '$lib/components/ui/button/index.js';
 
   import { browser } from '$app/environment';
   import { resolve } from '$app/paths';
@@ -54,13 +57,33 @@
     </div>
     <Separator />
     <!-- Content -->
-    <div class="grow">
+    <div class="min-h-0 grow">
       {@render children()}
     </div>
     <Separator />
     <!-- Footer -->
-    <div class="flex justify-center p-1">
+    <div class="grid grid-cols-[auto_auto] items-center justify-center divide-x-2 divide-pink-400 p-1 *:px-3">
       <span>Made with ❤️ by Steve Sajeev</span>
+      <div class="flex gap-2">
+        <Button
+          variant="outline"
+          size="icon-sm"
+          href="https://www.linkedin.com/in/stevesajeev"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <LinkedinIcon />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon-sm"
+          href="https://www.github.com/stevesajeev1"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <GithubIcon />
+        </Button>
+      </div>
     </div>
   </div>
   <SvelteQueryDevtools initialIsOpen={false} />
