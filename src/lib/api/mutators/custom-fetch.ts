@@ -1,16 +1,18 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 
 const getUrl = (contextUrl: string): string => {
-  const url = new URL(contextUrl, PUBLIC_API_URL);
-
-  return url.toString();
+  return new URL(contextUrl, PUBLIC_API_URL).toString();
 };
 
-export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
-  const requestUrl = getUrl(url);
+export type CustomFetchOptions = RequestInit & {
+  fetch?: typeof fetch;
+};
 
-  const response = await fetch(requestUrl, {
-    ...options,
+export const customFetch = async <T>(url: string, options: CustomFetchOptions): Promise<T> => {
+  const { fetch: fetchFn = fetch, ...requestOptions } = options;
+
+  const response = await fetchFn(getUrl(url), {
+    ...requestOptions,
     credentials: 'include'
   });
 

@@ -40,7 +40,7 @@
         <Tooltip.Root>
           <Tooltip.Trigger
             ><Badge
-              class="p-none rounded-full text-xs tabular-nums {getColor(instructor.rating!, 1, 5)}"
+              class="p-none rounded-full text-xs tabular-nums {getColor(instructor.rating, 1, 5)}"
               >{instructor.rating.toFixed(1)}</Badge
             ></Tooltip.Trigger
           >
@@ -66,8 +66,8 @@
         <Tooltip.Root>
           <Tooltip.Trigger
             ><Badge
-              class="rounded-full text-xs tabular-nums {getColor(instructor.take_again!, 0, 100)}"
-              >{instructor.take_again!.toFixed(1)}</Badge
+              class="rounded-full text-xs tabular-nums {getColor(instructor.take_again, 0, 100)}"
+              >{instructor.take_again.toFixed(1)}</Badge
             ></Tooltip.Trigger
           >
           <Tooltip.Content>Take Again %</Tooltip.Content>
