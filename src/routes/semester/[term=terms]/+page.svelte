@@ -39,6 +39,7 @@
   import { formatDay } from '$lib/utils/day';
   import { watch } from '$lib/utils/watch.svelte';
   import { updated } from '$app/state';
+  import { onMount, tick } from 'svelte';
 
   let { params }: PageProps = $props();
 
@@ -48,6 +49,8 @@
   let search = $state('');
 
   let filterBuilder = $state<FilterBuilder<typeof fields>>();
+
+  let scrollArea = $state<HTMLElement | null>(null);
 
   const fields = [
     { id: 'meet_type', label: 'Meet Type', type: 'text' },
@@ -145,6 +148,28 @@
 
     request = nextRequest;
   };
+
+  const maybeFetchNextPage = async () => {
+    if (scrollArea === null) return;
+    if (!classes.hasNextPage || classes.isFetchingNextPage) return;
+
+    const remaining = scrollArea.scrollHeight - scrollArea.scrollTop - scrollArea.clientHeight;
+
+    if (remaining <= 200) {
+      await classes.fetchNextPage();
+
+      await tick();
+      maybeFetchNextPage();
+    }
+  };
+
+  onMount(() => {
+    if (scrollArea === null) return;
+
+    const resizeObserver = new ResizeObserver(maybeFetchNextPage);
+    resizeObserver.observe(scrollArea);
+    return () => resizeObserver.disconnect();
+  });
 
   const items = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
 
@@ -290,11 +315,15 @@
           >An error occurred when trying to fetch classes. Please try again later.</span
         >
       {:else}
-        <ScrollArea class="min-h-0 grow rounded-md border" scrollHideDelay={10}>
+        <ScrollArea
+          bind:viewportRef={scrollArea}
+          class="min-h-0 grow rounded-md border"
+          scrollHideDelay={10}
+          onscrollcapture={maybeFetchNextPage}
+        >
           <div class="flex flex-col gap-2 px-4 py-2">
             {#if classes.data === undefined}
               <h4 class="text-sm font-medium">Please input a search query.</h4>
-              <!-- {:else if no results} -->
             {:else}
               {#each items as item (item.course.code)}
                 <Course
@@ -306,6 +335,9 @@
                       handleClassSelect(item.course.code, selectedSections)
                   }
                 />
+              {:else}
+                <span class="text-sm font-medium">No classes found matching this search query.</span
+                >
               {/each}
             {/if}
           </div>
