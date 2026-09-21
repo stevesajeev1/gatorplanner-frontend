@@ -1,0 +1,15 @@
+import { browser } from '$app/environment';
+import { QueryClient } from '@tanstack/svelte-query';
+
+export const load = async () => {
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000,
+        enabled: browser
+      }
+    }
+  });
+
+  return { queryClient };
+};

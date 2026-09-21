@@ -9,26 +9,17 @@
   import GithubIcon from '@iconify-svelte/fa6-brands/github';
   import { Button } from '$lib/components/ui/button/index.js';
 
-  import { browser } from '$app/environment';
   import { resolve } from '$app/paths';
 
-  import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+  import { QueryClientProvider } from '@tanstack/svelte-query';
   import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
 
-  let { children } = $props();
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        enabled: browser
-      }
-    }
-  });
+  let { data, children } = $props();
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
 
-<QueryClientProvider client={queryClient}>
+<QueryClientProvider client={data.queryClient}>
   <div class="flex h-dvh w-dvw flex-col">
     <!-- Header -->
     <div class="flex items-center gap-2 p-3">
