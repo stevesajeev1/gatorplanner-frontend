@@ -27,30 +27,6 @@ import { customQueryOptions } from '../../mutators/infinite.ts';
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-export type searchClassesResponse200 = {
-  data: PaginatedResponseSearchClassResponseItem;
-  status: 200;
-};
-
-export type searchClassesResponse422 = {
-  data: ErrorModel;
-  status: 422;
-};
-
-export type searchClassesResponse500 = {
-  data: ErrorModel;
-  status: 500;
-};
-
-export type searchClassesResponseSuccess = searchClassesResponse200 & {
-  headers: Headers;
-};
-export type searchClassesResponseError = (searchClassesResponse422 | searchClassesResponse500) & {
-  headers: Headers;
-};
-
-export type searchClassesResponse = searchClassesResponseSuccess | searchClassesResponseError;
-
 export const getSearchClassesUrl = (termID: number, params?: SearchClassesParams) => {
   const normalizedParams = new URLSearchParams();
 
@@ -76,7 +52,7 @@ export const searchClasses = async (
   searchClassesRequest: SearchClassesRequest,
   params?: SearchClassesParams,
   options?: Parameters<typeof customFetch>[1]
-): Promise<searchClassesResponse> => {
+): Promise<PaginatedResponseSearchClassResponseItem> => {
   const getHeaders = (
     h?: NonNullable<RequestInit['headers']>
   ): Record<string, string | readonly string[]> => {
@@ -96,12 +72,15 @@ export const searchClasses = async (
     }
     return headers;
   };
-  return customFetch<searchClassesResponse>(getSearchClassesUrl(termID, params), {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
-    body: JSON.stringify(searchClassesRequest)
-  });
+  return customFetch<PaginatedResponseSearchClassResponseItem>(
+    getSearchClassesUrl(termID, params),
+    {
+      ...options,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+      body: JSON.stringify(searchClassesRequest)
+    }
+  );
 };
 
 export const getSearchClassesInfiniteQueryKey = (

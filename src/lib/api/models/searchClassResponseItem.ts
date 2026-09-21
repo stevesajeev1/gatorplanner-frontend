@@ -8,7 +8,6 @@ import type { TypedListClassesByIDRow } from './typedListClassesByIDRow.ts';
 import type { TypedListCoursesByIDRow } from './typedListCoursesByIDRow.ts';
 
 export interface SearchClassResponseItem {
-  /** @nullable */
-  classes: TypedListClassesByIDRow[] | null;
+  classes: TypedListClassesByIDRow[];
   course: TypedListCoursesByIDRow;
 }

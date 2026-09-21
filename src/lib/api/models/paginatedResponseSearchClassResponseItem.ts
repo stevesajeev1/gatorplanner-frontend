@@ -9,8 +9,7 @@ import type { SearchClassResponseItem } from './searchClassResponseItem.ts';
 export interface PaginatedResponseSearchClassResponseItem {
   /** @minimum 0 */
   count: number;
-  /** @nullable */
-  items: SearchClassResponseItem[] | null;
+  items: SearchClassResponseItem[];
   /** @minimum 0 */
   limit: number;
   /** @minimum 0 */

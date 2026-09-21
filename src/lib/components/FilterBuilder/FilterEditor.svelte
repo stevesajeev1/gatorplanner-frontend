@@ -125,7 +125,7 @@
             {filters.find((f) => f.value === $formData.filter)!.label}
           </Select.Trigger>
 
-          <Select.Content>
+          <Select.Content class="max-h-75">
             {#each filters as filter (filter.value)}
               <Select.Item value={filter.value}>
                 {filter.label}
@@ -149,7 +149,7 @@
               </span>
             </Select.Trigger>
 
-            <Select.Content>
+            <Select.Content class="max-h-75">
               {#each getOptions($formData.field) as option (option.value)}
                 <Select.Item value={String(option.value)}>
                   {option.label ?? option.value}

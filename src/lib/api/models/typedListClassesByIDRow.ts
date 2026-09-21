@@ -8,10 +8,8 @@ import type { CustomInstructor } from './customInstructor.ts';
 import type { CustomMeetTime } from './customMeetTime.ts';
 
 export interface TypedListClassesByIDRow {
-  /** @nullable */
-  instructors: CustomInstructor[] | null;
-  /** @nullable */
-  meet_times: CustomMeetTime[] | null;
+  instructors: CustomInstructor[];
+  meet_times: CustomMeetTime[];
   meet_type: string;
   /** @nullable */
   note: string | null;

@@ -2,11 +2,9 @@
   import { type VariantProps, tv } from 'tailwind-variants';
   import { cn, type WithElementRef } from '$lib/utils.js';
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
-  import { resolve } from '$app/paths';
-  import type { Pathname } from '$app/types';
 
   export const buttonVariants = tv({
-    base: "rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+    base: "cursor-pointer rounded-md border border-transparent bg-clip-padding text-sm font-medium focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 group/button inline-flex shrink-0 items-center justify-center whitespace-nowrap transition-all outline-none select-none disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
     variants: {
       variant: {
         default: 'bg-primary text-primary-foreground hover:bg-primary/80',
@@ -47,7 +45,6 @@
     WithElementRef<HTMLAnchorAttributes> & {
       variant?: ButtonVariant;
       size?: ButtonSize;
-      href?: Pathname;
     };
 </script>
 
@@ -66,11 +63,12 @@
 </script>
 
 {#if href}
+  <!-- eslint-disable svelte/no-navigation-without-resolve -->
   <a
     bind:this={ref}
     data-slot="button"
     class={cn(buttonVariants({ variant, size }), className)}
-    href={disabled ? undefined : resolve(href)}
+    href={disabled ? undefined : href}
     aria-disabled={disabled}
     role={disabled ? 'link' : undefined}
     tabindex={disabled ? -1 : undefined}
@@ -78,6 +76,7 @@
   >
     {@render children?.()}
   </a>
+  <!-- eslint-enable svelte/no-navigation-without-resolve -->
 {:else}
   <button
     bind:this={ref}

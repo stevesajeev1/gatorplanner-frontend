@@ -14,13 +14,20 @@
   import type { Filter } from '$lib/api/models';
 
   type Props = {
+    class?: string;
     fields: F;
     options: Options<F>;
     hidden?: boolean;
     disabled?: boolean;
   };
 
-  let { fields, options, hidden = false, disabled = false }: Props = $props();
+  let {
+    class: className = '',
+    fields,
+    options,
+    hidden = false,
+    disabled = false
+  }: Props = $props();
 
   let filter = $state<_Filter | null>(null);
 
@@ -47,7 +54,9 @@
   };
 </script>
 
-<div class="flex items-center gap-2 overflow-x-auto pb-2 *:shrink-0 {!hidden && 'hidden'}">
+<div
+  class="{className} flex items-center gap-2 overflow-x-auto pb-2 *:shrink-0 {!hidden && 'hidden'}"
+>
   {#if filter === null}
     <Button variant="outline" size="sm" onclick={createFilter} {disabled}>
       <Plus /> Add Filter

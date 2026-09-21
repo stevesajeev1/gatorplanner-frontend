@@ -13,6 +13,9 @@ export default defineConfig({
           path: 'src/lib/api/mutators/custom-fetch.ts',
           name: 'customFetch'
         },
+        fetch: {
+          includeHttpResponseReturnType: false
+        },
         query: {
           usePrefetch: true,
           useQuery: true

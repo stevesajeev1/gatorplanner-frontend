@@ -12,5 +12,7 @@ export interface CustomInstructor {
   /** @nullable */
   rating: number | null;
   /** @nullable */
+  rmp_id: number | null;
+  /** @nullable */
   take_again: number | null;
 }
