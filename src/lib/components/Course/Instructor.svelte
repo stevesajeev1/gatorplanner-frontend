@@ -39,7 +39,8 @@
       {#if instructor.rating !== null}
         <Tooltip.Root>
           <Tooltip.Trigger
-            ><Badge class="p-none rounded-full text-xs tabular-nums {getColor(instructor.rating!, 1, 5)}"
+            ><Badge
+              class="p-none rounded-full text-xs tabular-nums {getColor(instructor.rating!, 1, 5)}"
               >{instructor.rating.toFixed(1)}</Badge
             ></Tooltip.Trigger
           >
@@ -50,8 +51,12 @@
         <Tooltip.Root>
           <Tooltip.Trigger>
             <Badge
-              class="rounded-full text-xs tabular-nums {getColor(instructor.difficulty!, 1, 5, true)}"
-              >{instructor.difficulty.toFixed(1)}</Badge
+              class="rounded-full text-xs tabular-nums {getColor(
+                instructor.difficulty!,
+                1,
+                5,
+                true
+              )}">{instructor.difficulty.toFixed(1)}</Badge
             >
           </Tooltip.Trigger>
           <Tooltip.Content>Difficulty</Tooltip.Content>
@@ -60,7 +65,8 @@
       {#if instructor.take_again !== null}
         <Tooltip.Root>
           <Tooltip.Trigger
-            ><Badge class="rounded-full text-xs tabular-nums {getColor(instructor.take_again!, 0, 100)}"
+            ><Badge
+              class="rounded-full text-xs tabular-nums {getColor(instructor.take_again!, 0, 100)}"
               >{instructor.take_again!.toFixed(1)}</Badge
             ></Tooltip.Trigger
           >

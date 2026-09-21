@@ -38,8 +38,8 @@
   import SelectedClass from '$lib/components/Course/SelectedClass.svelte';
   import { formatDay } from '$lib/utils/day';
   import { watch } from '$lib/utils/watch.svelte';
-  import { updated } from '$app/state';
   import { onMount, tick } from 'svelte';
+  import { SvelteMap, SvelteSet } from 'svelte/reactivity';
 
   let { params }: PageProps = $props();
 
@@ -173,7 +173,7 @@
 
   const items = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
 
-  let _selectedClasses = $state<_SelectedClasses>(new Map());
+  let _selectedClasses: _SelectedClasses = new SvelteMap();
   let selectedClasses = $state<SelectedClassType[]>([]);
 
   watch(
@@ -213,9 +213,9 @@
 
   const handleClassSelect = (
     courseCode: TypedListCoursesByIDRow['code'],
-    selectedSections: Set<TypedListClassesByIDRow['number']>
+    selectedSections: SvelteSet<TypedListClassesByIDRow['number']>
   ) => {
-    const next = new Map(_selectedClasses);
+    const next = new SvelteMap(_selectedClasses);
     if (selectedSections.size === 0) {
       next.delete(courseCode);
     } else {
@@ -235,10 +235,10 @@
   );
 
   const handleClassRemove = (courseCode: TypedListCoursesByIDRow['code']) => {
-    const next = new Map(_selectedClasses);
+    const next = new SvelteMap(_selectedClasses);
     next.delete(courseCode);
     _selectedClasses = next;
-  }
+  };
 </script>
 
 <div class="flex h-full flex-col gap-2 p-3">
@@ -250,7 +250,10 @@
       <ScrollArea class="min-h-0 grow" scrollHideDelay={10}>
         <div class="flex flex-col gap-2 pr-3">
           {#each selectedClasses as selectedClass (selectedClass.course.code)}
-            <SelectedClass class={selectedClass} ondelete={() => handleClassRemove(selectedClass.course.code)} />
+            <SelectedClass
+              class={selectedClass}
+              ondelete={() => handleClassRemove(selectedClass.course.code)}
+            />
           {:else}
             <span class="text-sm font-light">No classes currently selected.</span>
           {/each}
@@ -336,8 +339,8 @@
                   course={item.course}
                   sections={item.classes}
                   bind:selectedSections={
-                    () => _selectedClasses.get(item.course.code) ?? new Set(),
-                    (selectedSections: Set<TypedListClassesByIDRow['number']>) =>
+                    () => _selectedClasses.get(item.course.code) ?? new SvelteSet(),
+                    (selectedSections: SvelteSet<TypedListClassesByIDRow['number']>) =>
                       handleClassSelect(item.course.code, selectedSections)
                   }
                 />

@@ -14,7 +14,7 @@ export default defineConfig({
           name: 'customFetch'
         },
         fetch: {
-          includeHttpResponseReturnType: false,
+          includeHttpResponseReturnType: false
         },
         query: {
           usePrefetch: true,

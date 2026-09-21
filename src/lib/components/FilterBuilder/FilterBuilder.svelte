@@ -54,7 +54,9 @@
   };
 </script>
 
-<div class="{className} flex items-center gap-2 overflow-x-auto pb-2 *:shrink-0 {!hidden && 'hidden'}">
+<div
+  class="{className} flex items-center gap-2 overflow-x-auto pb-2 *:shrink-0 {!hidden && 'hidden'}"
+>
   {#if filter === null}
     <Button variant="outline" size="sm" onclick={createFilter} {disabled}>
       <Plus /> Add Filter

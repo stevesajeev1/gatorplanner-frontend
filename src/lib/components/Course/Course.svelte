@@ -19,11 +19,12 @@
   import LetterUppercaseCircleIIcon from '@iconify-svelte/arcticons/letter-uppercase-circle-i';
   import type { TypedListClassesByIDRow, TypedListCoursesByIDRow } from '$lib/api/models';
   import Section from './Section.svelte';
+  import { SvelteSet } from 'svelte/reactivity';
 
   type Props = {
     course: TypedListCoursesByIDRow;
     sections: TypedListClassesByIDRow[];
-    selectedSections: Set<TypedListClassesByIDRow['number']>;
+    selectedSections: SvelteSet<TypedListClassesByIDRow['number']>;
   };
 
   let { course, sections, selectedSections = $bindable() }: Props = $props();
@@ -60,7 +61,7 @@
   } as const;
 
   const handleClassSelect = (selected: boolean) => {
-    const next = new Set(selectedSections);
+    const next = new SvelteSet(selectedSections);
     if (selected) {
       sections.forEach((section) => next.add(section.number));
     } else {
@@ -73,7 +74,7 @@
     sectionNumber: TypedListClassesByIDRow['number'],
     selected: boolean
   ) => {
-    const next = new Set(selectedSections);
+    const next = new SvelteSet(selectedSections);
     if (selected) {
       next.add(sectionNumber);
     } else {

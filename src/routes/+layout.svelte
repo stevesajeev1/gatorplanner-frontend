@@ -62,7 +62,9 @@
     </div>
     <Separator />
     <!-- Footer -->
-    <div class="grid grid-cols-[auto_auto] items-center justify-center divide-x-2 divide-pink-400 p-1 *:px-3">
+    <div
+      class="grid grid-cols-[auto_auto] items-center justify-center divide-x-2 divide-pink-400 p-1 *:px-3"
+    >
       <span>Made with ❤️ by Steve Sajeev</span>
       <div class="flex gap-2">
         <Button

@@ -1,7 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
-import Icons from 'unplugin-icons/vite'
+import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -20,7 +20,7 @@ export default defineConfig({
       adapter: adapter()
     }),
     Icons({
-      compiler: 'svelte',
+      compiler: 'svelte'
     })
   ]
 });

@@ -1,4 +1,4 @@
-import { untrack } from "svelte";
+import { untrack } from 'svelte';
 
 export function watch<T>(
   getter: () => T,
