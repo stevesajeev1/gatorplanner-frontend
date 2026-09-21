@@ -11,12 +11,10 @@ export interface TypedListCoursesByIDRow {
   credits_min: number;
   department: string;
   description: string;
-  /** @nullable */
-  gen_eds: string[] | null;
+  gen_eds: string[];
   is_ai: boolean;
   is_honors: boolean;
-  /** @nullable */
-  is_lab: boolean | null;
+  is_lab: boolean;
   name: string;
   prerequisites: string;
   /** @nullable */

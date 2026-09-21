@@ -6,16 +6,10 @@
  */
 
 export interface CustomMeetTime {
-  /** @nullable */
-  building: string | null;
-  /** @nullable */
-  days: string[] | null;
-  /** @nullable */
-  period_end: string | null;
-  /** @nullable */
-  period_start: string | null;
-  /** @nullable */
-  time_end: string | null;
-  /** @nullable */
-  time_start: string | null;
+  building: string;
+  days: string[];
+  period_end: string;
+  period_start: string;
+  time_end: string;
+  time_start: string;
 }

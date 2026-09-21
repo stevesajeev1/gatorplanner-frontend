@@ -20,25 +20,6 @@ import { customFetch } from '../../mutators/custom-fetch.ts';
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
-export type listBuildingsResponse200 = {
-  data: string[] | null;
-  status: 200;
-};
-
-export type listBuildingsResponse500 = {
-  data: ErrorModel;
-  status: 500;
-};
-
-export type listBuildingsResponseSuccess = listBuildingsResponse200 & {
-  headers: Headers;
-};
-export type listBuildingsResponseError = listBuildingsResponse500 & {
-  headers: Headers;
-};
-
-export type listBuildingsResponse = listBuildingsResponseSuccess | listBuildingsResponseError;
-
 export const getListBuildingsUrl = () => {
   return `/buildings`;
 };
@@ -49,8 +30,8 @@ export const getListBuildingsUrl = () => {
  */
 export const listBuildings = async (
   options?: Parameters<typeof customFetch>[1]
-): Promise<listBuildingsResponse> => {
-  return customFetch<listBuildingsResponse>(getListBuildingsUrl(), {
+): Promise<string[]> => {
+  return customFetch<string[]>(getListBuildingsUrl(), {
     ...options,
     method: 'GET'
   });
@@ -126,25 +107,6 @@ export const prefetchListBuildingsQuery = async <
   return queryClient;
 };
 
-export type listDepartmentsResponse200 = {
-  data: string[] | null;
-  status: 200;
-};
-
-export type listDepartmentsResponse500 = {
-  data: ErrorModel;
-  status: 500;
-};
-
-export type listDepartmentsResponseSuccess = listDepartmentsResponse200 & {
-  headers: Headers;
-};
-export type listDepartmentsResponseError = listDepartmentsResponse500 & {
-  headers: Headers;
-};
-
-export type listDepartmentsResponse = listDepartmentsResponseSuccess | listDepartmentsResponseError;
-
 export const getListDepartmentsUrl = () => {
   return `/departments`;
 };
@@ -155,8 +117,8 @@ export const getListDepartmentsUrl = () => {
  */
 export const listDepartments = async (
   options?: Parameters<typeof customFetch>[1]
-): Promise<listDepartmentsResponse> => {
-  return customFetch<listDepartmentsResponse>(getListDepartmentsUrl(), {
+): Promise<string[]> => {
+  return customFetch<string[]>(getListDepartmentsUrl(), {
     ...options,
     method: 'GET'
   });

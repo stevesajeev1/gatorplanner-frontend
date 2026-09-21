@@ -16,8 +16,9 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
 
   const data = await response.json();
 
-  return {
-    status: response.status,
-    data
-  } as T;
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data;
 };
