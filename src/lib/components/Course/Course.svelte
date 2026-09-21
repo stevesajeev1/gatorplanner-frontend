@@ -60,7 +60,7 @@
   } as const;
 
   const handleClassSelect = (selected: boolean) => {
-    let next = new Set(selectedSections);
+    const next = new Set(selectedSections);
     if (selected) {
       sections.forEach((section) => next.add(section.number));
     } else {
@@ -73,7 +73,7 @@
     sectionNumber: TypedListClassesByIDRow['number'],
     selected: boolean
   ) => {
-    let next = new Set(selectedSections);
+    const next = new Set(selectedSections);
     if (selected) {
       next.add(sectionNumber);
     } else {
