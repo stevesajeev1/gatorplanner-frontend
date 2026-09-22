@@ -173,7 +173,8 @@
 
   const items = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
 
-  let _selectedClasses: _SelectedClasses = new SvelteMap();
+  // eslint-disable-next-line svelte/no-unnecessary-state-wrap
+  let _selectedClasses = $state<_SelectedClasses>(new SvelteMap());
   let selectedClasses = $state<SelectedClassType[]>([]);
 
   watch(
@@ -181,45 +182,54 @@
     (prev, curr) => {
       if (curr.size > prev.size) {
         const newCourse = [...curr.keys()].find((k) => !prev.has(k))!;
+        const newClasses = curr.get(newCourse)!;
 
-        const item = items.find((item) => item.course.code === newCourse)!;
-        const classes = curr.get(newCourse)!;
+        const item = items.find((item) => item.course.id === newCourse)!;
+        const classMap = new Map(item.classes.map((c) => [c.id, c]));
 
         const selectedClass: SelectedClassType = {
           course: {
+            id: item.course.id,
             code: item.course.code,
             name: item.course.name,
             credits_min: item.course.credits_min,
             credits_max: item.course.credits_max
           },
-          classes: Array.from(classes, (number) => ({ number })).toSorted()
+          classes: Array.from(newClasses, (id) => classMap.get(id)!)
+            .map(({ id, number }) => ({ id, number }))
+            .toSorted()
         };
         selectedClasses = [...selectedClasses, selectedClass];
       } else if (curr.size < prev.size) {
         const removedCourse = [...prev.keys()].find((k) => !curr.has(k))!;
 
-        selectedClasses = [...selectedClasses.filter((c) => c.course.code !== removedCourse)];
+        selectedClasses = [...selectedClasses.filter((c) => c.course.id !== removedCourse)];
       } else {
         const [updatedCourse, updatedClasses] = [...curr.entries()].find(
-          ([code, classes]) => prev.get(code)!.size !== classes.size
+          ([id, classes]) => prev.get(id)!.size !== classes.size
         )!;
 
-        const course = selectedClasses.find((c) => c.course.code === updatedCourse)!;
-        course.classes = Array.from(updatedClasses, (number) => ({ number })).toSorted();
+        const item = items.find((item) => item.course.id === updatedCourse)!;
+        const classMap = new Map(item.classes.map((c) => [c.id, c]));
+
+        const course = selectedClasses.find((c) => c.course.id === updatedCourse)!;
+        course.classes = Array.from(updatedClasses, (id) => classMap.get(id)!)
+          .map(({ id, number }) => ({ id, number }))
+          .toSorted();
       }
     },
     false
   );
 
   const handleClassSelect = (
-    courseCode: TypedListCoursesByIDRow['code'],
-    selectedSections: SvelteSet<TypedListClassesByIDRow['number']>
+    courseId: TypedListCoursesByIDRow['id'],
+    selectedSections: SvelteSet<TypedListClassesByIDRow['id']>
   ) => {
     const next = new SvelteMap(_selectedClasses);
     if (selectedSections.size === 0) {
-      next.delete(courseCode);
+      next.delete(courseId);
     } else {
-      next.set(courseCode, selectedSections);
+      next.set(courseId, selectedSections);
     }
     _selectedClasses = next;
   };
@@ -234,10 +244,10 @@
     )
   );
 
-  const handleClassRemove = (courseCode: TypedListCoursesByIDRow['code']) => {
+  const handleClassRemove = (courseCode: TypedListCoursesByIDRow['id']) => {
     const next = new SvelteMap(_selectedClasses);
     next.delete(courseCode);
-    _selectedClasses = next;
+    _selectedClasses = new SvelteMap(next);
   };
 </script>
 
@@ -249,10 +259,10 @@
       <h2 class="mb-2 text-lg font-semibold">Selected Classes</h2>
       <ScrollArea class="min-h-0 grow" scrollHideDelay={10}>
         <div class="flex flex-col gap-2 pr-3">
-          {#each selectedClasses as selectedClass (selectedClass.course.code)}
+          {#each selectedClasses as selectedClass (selectedClass.course.id)}
             <SelectedClass
               class={selectedClass}
-              ondelete={() => handleClassRemove(selectedClass.course.code)}
+              ondelete={() => handleClassRemove(selectedClass.course.id)}
             />
           {:else}
             <span class="text-sm font-light">No classes currently selected.</span>
@@ -334,14 +344,14 @@
             {#if classes.data === undefined}
               <h4 class="text-sm font-medium">Please input a search query.</h4>
             {:else}
-              {#each items as item (item.course.code)}
+              {#each items as item (item.course.id)}
                 <Course
                   course={item.course}
                   sections={item.classes}
                   bind:selectedSections={
-                    () => _selectedClasses.get(item.course.code) ?? new SvelteSet(),
-                    (selectedSections: SvelteSet<TypedListClassesByIDRow['number']>) =>
-                      handleClassSelect(item.course.code, selectedSections)
+                    () => _selectedClasses.get(item.course.id) ?? new SvelteSet(),
+                    (selectedSections: SvelteSet<TypedListClassesByIDRow['id']>) =>
+                      handleClassSelect(item.course.id, selectedSections)
                   }
                 />
               {:else}

@@ -3,11 +3,11 @@ import type { TypedListCoursesByIDRow } from '$lib/api/models/typedListCoursesBy
 import type { SvelteMap, SvelteSet } from 'svelte/reactivity';
 
 export type _SelectedClasses = SvelteMap<
-  TypedListCoursesByIDRow['code'],
-  SvelteSet<TypedListClassesByIDRow['number']>
+  TypedListCoursesByIDRow['id'],
+  SvelteSet<TypedListClassesByIDRow['id']>
 >;
 
 export type SelectedClass = {
-  course: Pick<TypedListCoursesByIDRow, 'code' | 'name' | 'credits_min' | 'credits_max'>;
-  classes: Pick<TypedListClassesByIDRow, 'number'>[];
+  course: Pick<TypedListCoursesByIDRow, 'id' | 'code' | 'name' | 'credits_min' | 'credits_max'>;
+  classes: Pick<TypedListClassesByIDRow, 'id' | 'number'>[];
 };

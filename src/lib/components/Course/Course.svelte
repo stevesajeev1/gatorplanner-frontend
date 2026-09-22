@@ -24,7 +24,7 @@
   type Props = {
     course: TypedListCoursesByIDRow;
     sections: TypedListClassesByIDRow[];
-    selectedSections: SvelteSet<TypedListClassesByIDRow['number']>;
+    selectedSections: SvelteSet<TypedListClassesByIDRow['id']>;
   };
 
   let { course, sections, selectedSections = $bindable() }: Props = $props();
@@ -63,22 +63,19 @@
   const handleClassSelect = (selected: boolean) => {
     const next = new SvelteSet(selectedSections);
     if (selected) {
-      sections.forEach((section) => next.add(section.number));
+      sections.forEach((section) => next.add(section.id));
     } else {
       next.clear();
     }
     selectedSections = next;
   };
 
-  const handleSectionSelect = (
-    sectionNumber: TypedListClassesByIDRow['number'],
-    selected: boolean
-  ) => {
+  const handleSectionSelect = (sectionId: TypedListClassesByIDRow['id'], selected: boolean) => {
     const next = new SvelteSet(selectedSections);
     if (selected) {
-      next.add(sectionNumber);
+      next.add(sectionId);
     } else {
-      next.delete(sectionNumber);
+      next.delete(sectionId);
     }
     selectedSections = next;
   };
@@ -196,12 +193,12 @@
     </div>
     <Separator class="my-2" />
     <div class="space-y-2">
-      {#each sections as section (section.number)}
+      {#each sections as section (section.id)}
         <Section
           {section}
           bind:selected={
-            () => selectedSections.has(section.number),
-            (selected: boolean) => handleSectionSelect(section.number, selected)
+            () => selectedSections.has(section.id),
+            (selected: boolean) => handleSectionSelect(section.id, selected)
           }
         />
       {/each}
