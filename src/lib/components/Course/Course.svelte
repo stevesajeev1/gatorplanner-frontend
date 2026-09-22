@@ -70,10 +70,7 @@
     selectedSections = next;
   };
 
-  const handleSectionSelect = (
-    sectionId: TypedListClassesByIDRow['id'],
-    selected: boolean
-  ) => {
+  const handleSectionSelect = (sectionId: TypedListClassesByIDRow['id'], selected: boolean) => {
     const next = new SvelteSet(selectedSections);
     if (selected) {
       next.add(sectionId);

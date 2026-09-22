@@ -173,6 +173,7 @@
 
   const items = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
 
+  // eslint-disable-next-line svelte/no-unnecessary-state-wrap
   let _selectedClasses = $state<_SelectedClasses>(new SvelteMap());
   let selectedClasses = $state<SelectedClassType[]>([]);
 
