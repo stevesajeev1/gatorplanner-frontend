@@ -27,6 +27,7 @@
 <div>
   {#if instructor.rmp_id !== null}
     <Button
+      class="ml-3 inline p-0"
       variant="link"
       aria-label="Rate My Professor"
       href="https://www.ratemyprofessors.com/professor/{instructor.rmp_id}"
@@ -75,6 +76,8 @@
       {/if}
     </Tooltip.Provider>
   {:else}
-    <span class="pointer-events-none {buttonVariants({ variant: 'link' })}">{instructor.name}</span>
+    <span class="pointer-events-none inline! p-0 {buttonVariants({ variant: 'link' })}"
+      >{instructor.name}</span
+    >
   {/if}
 </div>

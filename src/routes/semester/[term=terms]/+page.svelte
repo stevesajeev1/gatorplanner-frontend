@@ -109,7 +109,9 @@
       value
     })),
 
-    'meet_times.building': buildings.isSuccess ? buildings.data.map((value) => ({ value })) : [],
+    'meet_times.building': buildings.isSuccess
+      ? buildings.data.map((b) => ({ value: b.name }))
+      : [],
 
     course_department: departments.isSuccess ? departments.data.map((value) => ({ value })) : []
   }) satisfies Options<typeof fields>;

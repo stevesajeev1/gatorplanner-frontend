@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './customBuilding.ts';
 export * from './customInstructor.ts';
 export * from './customMeetTime.ts';
 export * from './errorDetail.ts';
@@ -61,5 +62,6 @@ export * from './searchClassesRequest.ts';
 export * from './searchClassesRequestFilter.ts';
 export * from './searchClassesRequestFilterGlue.ts';
 export * from './searchClassResponseItem.ts';
+export * from './typedListBuildingsRow.ts';
 export * from './typedListClassesByIDRow.ts';
 export * from './typedListCoursesByIDRow.ts';
