@@ -8,6 +8,7 @@ import type { CustomInstructor } from './customInstructor.ts';
 import type { CustomMeetTime } from './customMeetTime.ts';
 
 export interface TypedListClassesByIDRow {
+  id: string;
   instructors: CustomInstructor[];
   meet_times: CustomMeetTime[];
   meet_type: string;

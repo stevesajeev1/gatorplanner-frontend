@@ -12,6 +12,7 @@ export interface TypedListCoursesByIDRow {
   department: string;
   description: string;
   gen_eds: string[];
+  id: string;
   is_ai: boolean;
   is_honors: boolean;
   is_lab: boolean;
