@@ -4,9 +4,10 @@
  * GatorPlanner API
  * OpenAPI spec version: 1.0.0
  */
+import type { CustomBuilding } from './customBuilding.ts';
 
 export interface CustomMeetTime {
-  building: string;
+  building: CustomBuilding | null;
   days: string[];
   period_end: string;
   period_start: string;

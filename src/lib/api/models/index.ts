@@ -5,6 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './customBuilding.ts';
 export * from './customInstructor.ts';
 export * from './customMeetTime.ts';
 export * from './errorDetail.ts';
