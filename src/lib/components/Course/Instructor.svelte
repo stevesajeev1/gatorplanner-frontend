@@ -76,6 +76,8 @@
       {/if}
     </Tooltip.Provider>
   {:else}
-    <span class="pointer-events-none inline! p-0 {buttonVariants({ variant: 'link' })}">{instructor.name}</span>
+    <span class="pointer-events-none inline! p-0 {buttonVariants({ variant: 'link' })}"
+      >{instructor.name}</span
+    >
   {/if}
 </div>
