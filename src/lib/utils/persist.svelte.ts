@@ -47,8 +47,8 @@ export class PersistedMap<K, V, P = V> {
   }
 
   get value() {
-		return this.map;
-	}
+    return this.map;
+  }
 
   get size() {
     return this.map.size;
@@ -117,8 +117,8 @@ export class PersistedArray<T, P = T> {
   }
 
   get value() {
-		return this.array;
-	}
+    return this.array;
+  }
 
   push(...items: T[]) {
     return this.array.push(...items);

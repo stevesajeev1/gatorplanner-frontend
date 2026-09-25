@@ -31,15 +31,12 @@
     createSearchClassesInfinite
   } from '$lib/api/endpoints';
   import { keepPreviousData } from '@tanstack/svelte-query';
-  import type {
-    _SelectedClasses,
-    SelectedClass as SelectedClassType
-  } from '$lib/components/Course/SelectedClass';
+  import type { SelectedClass as SelectedClassType } from '$lib/components/Course/SelectedClass';
   import SelectedClass from '$lib/components/Course/SelectedClass.svelte';
   import { formatDay } from '$lib/utils/day';
   import { watch } from '$lib/utils/watch.svelte';
   import { onMount, tick } from 'svelte';
-  import { SvelteMap, SvelteSet } from 'svelte/reactivity';
+  import { SvelteSet } from 'svelte/reactivity';
   import { PersistedArray, PersistedMap } from '$lib/utils/persist.svelte';
 
   let { params }: PageProps = $props();
@@ -185,8 +182,7 @@
     (classes) => [...classes],
     (classes) => new SvelteSet(classes)
   );
-
-  let selectedClasses = new PersistedArray<SelectedClassType>('selected-classes');
+  const selectedClasses = new PersistedArray<SelectedClassType>('selected-classes');
 
   watch(
     () => _selectedClasses.value,
