@@ -14,6 +14,7 @@
   import FilterBuilder from '$lib/components/FilterBuilder/FilterBuilder.svelte';
   import type { Field, Options } from '$lib/components/FilterBuilder/FilterBuilder';
   import Course from '$lib/components/Course/Course.svelte';
+  import ScheduleMap from '$lib/components/Map.svelte';
 
   import {
     FilterRuleNumberPeriodValue,
@@ -392,7 +393,9 @@
               }
             />
           </Tabs.Content>
-          <Tabs.Content value="map">MAP</Tabs.Content>
+          <Tabs.Content value="map">
+            <ScheduleMap />
+          </Tabs.Content>
         </div>
       </Tabs.Root>
     </div>
