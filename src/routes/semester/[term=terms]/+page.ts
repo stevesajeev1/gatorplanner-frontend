@@ -2,7 +2,7 @@ import { prefetchListBuildingsQuery, prefetchListDepartmentsQuery } from '$lib/a
 
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async ({ parent, fetch }) => {
+export const load: PageLoad = async ({ parent, fetch, data }) => {
   const { queryClient } = await parent();
 
   await Promise.all([
@@ -13,4 +13,6 @@ export const load: PageLoad = async ({ parent, fetch }) => {
       request: { fetch }
     })
   ]);
+
+  return data;
 };
