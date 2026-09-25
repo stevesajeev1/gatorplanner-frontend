@@ -31,15 +31,13 @@
     createSearchClassesInfinite
   } from '$lib/api/endpoints';
   import { keepPreviousData } from '@tanstack/svelte-query';
-  import type {
-    _SelectedClasses,
-    SelectedClass as SelectedClassType
-  } from '$lib/components/Course/SelectedClass';
+  import type { SelectedClass as SelectedClassType } from '$lib/components/Course/SelectedClass';
   import SelectedClass from '$lib/components/Course/SelectedClass.svelte';
   import { formatDay } from '$lib/utils/day';
   import { watch } from '$lib/utils/watch.svelte';
   import { onMount, tick } from 'svelte';
-  import { SvelteMap, SvelteSet } from 'svelte/reactivity';
+  import { SvelteSet } from 'svelte/reactivity';
+  import { PersistedArray, PersistedMap } from '$lib/utils/persist.svelte';
 
   let { params }: PageProps = $props();
 
@@ -175,12 +173,20 @@
 
   const items = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
 
-  // eslint-disable-next-line svelte/no-unnecessary-state-wrap
-  let _selectedClasses = $state<_SelectedClasses>(new SvelteMap());
-  let selectedClasses = $state<SelectedClassType[]>([]);
+  const term = () => params.term;
+  const _selectedClasses = new PersistedMap<
+    TypedListCoursesByIDRow['id'],
+    SvelteSet<TypedListClassesByIDRow['id']>,
+    TypedListClassesByIDRow['id'][]
+  >(
+    `${term()}-selected-class-ids`,
+    (classes) => [...classes],
+    (classes) => new SvelteSet(classes)
+  );
+  const selectedClasses = new PersistedArray<SelectedClassType>(`${term()}-selected-classes`);
 
   watch(
-    () => _selectedClasses,
+    () => _selectedClasses.value,
     (prev, curr) => {
       if (curr.size > prev.size) {
         const newCourse = [...curr.keys()].find((k) => !prev.has(k))!;
@@ -190,22 +196,16 @@
         const classMap = new Map(item.classes.map((c) => [c.id, c]));
 
         const selectedClass: SelectedClassType = {
-          course: {
-            id: item.course.id,
-            code: item.course.code,
-            name: item.course.name,
-            credits_min: item.course.credits_min,
-            credits_max: item.course.credits_max
-          },
-          classes: Array.from(newClasses, (id) => classMap.get(id)!)
-            .map(({ id, number }) => ({ id, number }))
-            .toSorted()
+          course: item.course,
+          classes: Array.from(newClasses, (id) => classMap.get(id)!).toSorted(
+            (a, b) => a.number - b.number
+          )
         };
-        selectedClasses = [...selectedClasses, selectedClass];
+        selectedClasses.push(selectedClass);
       } else if (curr.size < prev.size) {
         const removedCourse = [...prev.keys()].find((k) => !curr.has(k))!;
 
-        selectedClasses = [...selectedClasses.filter((c) => c.course.id !== removedCourse)];
+        selectedClasses.replace(selectedClasses.filter((c) => c.course.id !== removedCourse));
       } else {
         const [updatedCourse, updatedClasses] = [...curr.entries()].find(
           ([id, classes]) => prev.get(id)!.size !== classes.size
@@ -215,9 +215,9 @@
         const classMap = new Map(item.classes.map((c) => [c.id, c]));
 
         const course = selectedClasses.find((c) => c.course.id === updatedCourse)!;
-        course.classes = Array.from(updatedClasses, (id) => classMap.get(id)!)
-          .map(({ id, number }) => ({ id, number }))
-          .toSorted();
+        course.classes = Array.from(updatedClasses, (id) => classMap.get(id)!).toSorted(
+          (a, b) => a.number - b.number
+        );
       }
     },
     false
@@ -227,13 +227,11 @@
     courseId: TypedListCoursesByIDRow['id'],
     selectedSections: SvelteSet<TypedListClassesByIDRow['id']>
   ) => {
-    const next = new SvelteMap(_selectedClasses);
     if (selectedSections.size === 0) {
-      next.delete(courseId);
+      _selectedClasses.delete(courseId);
     } else {
-      next.set(courseId, selectedSections);
+      _selectedClasses.set(courseId, selectedSections);
     }
-    _selectedClasses = next;
   };
 
   const totalCredits = $derived(
@@ -247,9 +245,7 @@
   );
 
   const handleClassRemove = (courseCode: TypedListCoursesByIDRow['id']) => {
-    const next = new SvelteMap(_selectedClasses);
-    next.delete(courseCode);
-    _selectedClasses = new SvelteMap(next);
+    _selectedClasses.delete(courseCode);
   };
 </script>
 
@@ -261,7 +257,7 @@
       <h2 class="mb-2 text-lg font-semibold">Selected Classes</h2>
       <ScrollArea class="min-h-0 grow" scrollHideDelay={10}>
         <div class="flex flex-col gap-2 pr-3">
-          {#each selectedClasses as selectedClass (selectedClass.course.id)}
+          {#each selectedClasses.value as selectedClass (selectedClass.course.id)}
             <SelectedClass
               class={selectedClass}
               ondelete={() => handleClassRemove(selectedClass.course.id)}
@@ -351,7 +347,7 @@
                   course={item.course}
                   sections={item.classes}
                   bind:selectedSections={
-                    () => _selectedClasses.get(item.course.id) ?? new SvelteSet(),
+                    () => _selectedClasses.value.get(item.course.id) ?? new SvelteSet(),
                     (selectedSections: SvelteSet<TypedListClassesByIDRow['id']>) =>
                       handleClassSelect(item.course.id, selectedSections)
                   }

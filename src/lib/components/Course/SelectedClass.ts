@@ -1,13 +1,15 @@
 import type { TypedListClassesByIDRow } from '$lib/api/models';
 import type { TypedListCoursesByIDRow } from '$lib/api/models/typedListCoursesByIDRow';
-import type { SvelteMap, SvelteSet } from 'svelte/reactivity';
+import type { PersistedMap } from '$lib/utils/persist.svelte';
+import type { SvelteSet } from 'svelte/reactivity';
 
-export type _SelectedClasses = SvelteMap<
+export type _SelectedClasses = PersistedMap<
   TypedListCoursesByIDRow['id'],
-  SvelteSet<TypedListClassesByIDRow['id']>
+  SvelteSet<TypedListClassesByIDRow['id']>,
+  TypedListClassesByIDRow['id'][]
 >;
 
 export type SelectedClass = {
-  course: Pick<TypedListCoursesByIDRow, 'id' | 'code' | 'name' | 'credits_min' | 'credits_max'>;
-  classes: Pick<TypedListClassesByIDRow, 'id' | 'number'>[];
+  course: TypedListCoursesByIDRow;
+  classes: TypedListClassesByIDRow[];
 };
