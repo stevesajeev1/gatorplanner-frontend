@@ -173,16 +173,17 @@
 
   const items = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
 
+  const term = () => params.term;
   const _selectedClasses = new PersistedMap<
     TypedListCoursesByIDRow['id'],
     SvelteSet<TypedListClassesByIDRow['id']>,
     TypedListClassesByIDRow['id'][]
   >(
-    'selected-class-ids',
+    `${term()}-selected-class-ids`,
     (classes) => [...classes],
     (classes) => new SvelteSet(classes)
   );
-  const selectedClasses = new PersistedArray<SelectedClassType>('selected-classes');
+  const selectedClasses = new PersistedArray<SelectedClassType>(`${term()}-selected-classes`);
 
   watch(
     () => _selectedClasses.value,
