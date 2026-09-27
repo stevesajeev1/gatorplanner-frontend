@@ -9,13 +9,15 @@
     MarkerPopup,
     MarkerTooltip
   } from '$lib/components/ui/map';
+  import type { SelectedSchedule } from '../Schedules/Calendar';
   import type { MapStyle } from './Map';
 
   type Props = {
     mapStyle: MapStyle;
+    selectedSchedule: SelectedSchedule | null;
   };
 
-  const { mapStyle }: Props = $props();
+  const { mapStyle, selectedSchedule }: Props = $props();
 
   const route: [number, number][] = [
     [-82.34073, 29.64885],
@@ -50,7 +52,7 @@
 
     <MapControls />
 
-    <div class="absolute top-3 left-3 border-border/50 bg-background/95 backdrop-blur-md z-10">
+    <div class="absolute top-3 left-3 z-10 border-border/50 bg-background/95 backdrop-blur-md">
       <div>MONDAY</div>
     </div>
   </Map>

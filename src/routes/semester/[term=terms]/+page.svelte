@@ -377,7 +377,7 @@
       {/if}
     </div>
     <div class="col-span-6 min-h-0">
-      <Tabs.Root class="h-full" value="schedules">
+      <Tabs.Root class="h-full" value="map">
         <Tabs.List>
           <Tabs.Trigger value="schedules">Schedules</Tabs.Trigger>
           <Tabs.Trigger value="map">Map</Tabs.Trigger>
@@ -394,7 +394,7 @@
             />
           </Tabs.Content>
           <Tabs.Content value="map">
-            <ScheduleMap mapStyle={data.mapStyle} />
+            <ScheduleMap mapStyle={data.mapStyle} selectedSchedule={selectedSchedule.value} />
           </Tabs.Content>
         </div>
       </Tabs.Root>
