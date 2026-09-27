@@ -132,6 +132,10 @@ export class PersistedArray<T, P = T> {
     return this.array.filter(predicate);
   }
 
+  map<U>(callback: (value: T, index: number, array: T[]) => U) {
+    return this.array.map(callback);
+  }
+
   reduce<U>(callback: (accumulator: U, value: T, index: number, array: T[]) => U, initialValue: U) {
     return this.array.reduce(callback, initialValue);
   }
@@ -142,6 +146,57 @@ export class PersistedArray<T, P = T> {
 
   replace(values: T[]) {
     this.array = values;
+    return this;
+  }
+}
+
+export class PersistedObject<V, P = V> {
+  #key: string;
+  #serialize: SerializeFn<V, P>;
+  #deserialize: DeserializeFn<V, P>;
+
+  object = $state<V | null>(null);
+
+  constructor(
+    key: string,
+    serialize: SerializeFn<V, P> = (value: V) => value as unknown as P,
+    deserialize: DeserializeFn<V, P> = (value: P) => value as unknown as V
+  ) {
+    this.#key = key;
+    this.#serialize = serialize;
+    this.#deserialize = deserialize;
+
+    if (!browser) return;
+
+    const stored = localStorage.getItem(this.#key);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as P;
+        this.object = this.#deserialize(parsed);
+      } catch (e) {
+        console.error(`Failed to parse localStorage key "${this.#key}":`, e);
+      }
+    }
+
+    $effect.root(() => {
+      $effect(() => {
+        if (this.object === null) {
+          localStorage.removeItem(this.#key);
+          return;
+        }
+
+        const serialized = this.#serialize(this.object);
+        localStorage.setItem(this.#key, JSON.stringify(serialized));
+      });
+    });
+  }
+
+  get value() {
+    return this.object;
+  }
+
+  set(value: V | null) {
+    this.object = value;
     return this;
   }
 }
