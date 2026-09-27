@@ -129,3 +129,7 @@
     @apply font-sans;
   }
 }
+
+@source inline('col-start-{2..8}');
+@source inline('row-start-{2..15}');
+@source inline('row-end-{3..16}');

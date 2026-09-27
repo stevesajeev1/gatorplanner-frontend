@@ -2,19 +2,13 @@
   import type { CustomMeetTime } from '$lib/api/models';
   import { formatDay } from '$lib/utils/day';
   import { Button } from '$lib/components/ui/button/index.js';
+  import { formatTime } from '$lib/utils/time';
 
   type Props = {
     meetTime: CustomMeetTime;
   };
 
   let { meetTime }: Props = $props();
-
-  const formatTime = (time: string) =>
-    Temporal.PlainTime.from(time).toLocaleString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true
-    });
 </script>
 
 <div class="ml-3 text-sm">
