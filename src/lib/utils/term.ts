@@ -1,4 +1,4 @@
-export type Term = "Spring" | "Summer" | "Fall";
+export type Term = 'Spring' | 'Summer' | 'Fall';
 
 const TERM_CODES = {
   Spring: 1,
@@ -25,15 +25,15 @@ export const getCurrentTerm = (): string => {
   }
 
   return `2${String(year).slice(-2)}${termCode}`;
-}
+};
 
 export const getTermDisplay = (termCode: string): string => {
   const year = `20${termCode.slice(1, 3)}`;
   const term = TERM_NAMES[Number(termCode[3]) as keyof typeof TERM_NAMES];
 
   return `${term} ${year}`;
-}
+};
 
 export const parseTermNumber = (term: number): Term => {
   return TERM_NAMES[term as keyof typeof TERM_NAMES];
-}
+};

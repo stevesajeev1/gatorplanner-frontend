@@ -123,7 +123,7 @@
   };
 
   $effect(() => {
-    classes;
+    classes; // eslint-disable-line @typescript-eslint/no-unused-expressions
 
     requestAnimationFrame(scrollToFirstClass);
   });
@@ -239,10 +239,8 @@
     >
   {/if}
   <div class="flex justify-end">
-    <Button
-      variant={selected ? 'destructive' : 'outline'}
-      size="sm"
-      onclick={onselect}>{selected ? 'Deselect' : 'Select'}</Button
+    <Button variant={selected ? 'destructive' : 'outline'} size="sm" onclick={onselect}
+      >{selected ? 'Deselect' : 'Select'}</Button
     >
   </div>
 </div>

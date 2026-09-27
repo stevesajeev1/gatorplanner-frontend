@@ -21,7 +21,6 @@
     FilterRuleTextCourseGenEdsValue,
     FilterRuleTextCourseMeetDaysValue,
     FilterRuleTextCourseQuestValue,
-    type Schedule,
     type SearchClassesRequest,
     type TypedListClassesByIDRow,
     type TypedListCoursesByIDRow
