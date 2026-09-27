@@ -32,7 +32,19 @@ export default defineConfig({
                 name: 'customQueryOptions'
               }
             }
-          }
+          },
+          'generate-schedules': {
+            query: {
+              usePrefetch: false,
+              useQuery: false,
+              useInfinite: true,
+              useInfiniteQueryParam: 'offset',
+              queryOptions: {
+                path: 'src/lib/api/mutators/infinite.ts',
+                name: 'customQueryOptions'
+              }
+            }
+          },
         }
       }
     },
