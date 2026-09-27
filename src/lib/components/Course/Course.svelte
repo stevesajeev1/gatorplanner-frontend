@@ -65,7 +65,7 @@
     if (selected) {
       sections.forEach((section) => next.add(section.id));
     } else {
-      next.clear();
+      sections.forEach((section) => next.delete(section.id));
     }
     selectedSections = next;
   };
@@ -79,10 +79,15 @@
     }
     selectedSections = next;
   };
+
+  const classChecked = $derived(sections.every((cl) => selectedSections.has(cl.id)));
+  const classIndeterminate = $derived(
+    !classChecked && sections.some((cl) => selectedSections.has(cl.id))
+  );
 </script>
 
 <Collapsible.Root class="rounded-md bg-gray-100 p-2">
-  <Collapsible.Trigger class="grid w-full grid-cols-[1fr_auto]">
+  <Collapsible.Trigger class="grid w-full cursor-pointer grid-cols-[1fr_auto]">
     <div class="flex flex-col items-start overflow-hidden">
       <div class="flex items-center gap-1">
         <span class="font-bold">{course.code}</span>
@@ -144,13 +149,8 @@
       <Checkbox
         class="border-gray-400"
         onclick={(e) => e.stopPropagation()}
-        bind:checked={
-          () => selectedSections.size === sections.length,
-          (selected: boolean) => handleClassSelect(selected)
-        }
-        bind:indeterminate={
-          () => selectedSections.size > 0 && selectedSections.size < sections.length, () => {}
-        }
+        bind:checked={() => classChecked, (selected: boolean) => handleClassSelect(selected)}
+        bind:indeterminate={() => classIndeterminate, () => {}}
       />
       <div class="text-sm font-light">
         <span>Credits:</span>
