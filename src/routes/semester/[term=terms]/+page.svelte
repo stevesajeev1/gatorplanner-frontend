@@ -6,7 +6,8 @@
   import { Button } from '$lib/components/ui/button/index.js';
   import * as InputGroup from '$lib/components/ui/input-group/index.js';
   import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
-  import { getTerm } from '$lib/utils/term';
+  import * as Tabs from '$lib/components/ui/tabs/index.js';
+  import { getTermDisplay } from '$lib/utils/term';
 
   import type { PageProps } from './$types';
 
@@ -20,6 +21,7 @@
     FilterRuleTextCourseGenEdsValue,
     FilterRuleTextCourseMeetDaysValue,
     FilterRuleTextCourseQuestValue,
+    type Schedule,
     type SearchClassesRequest,
     type TypedListClassesByIDRow,
     type TypedListCoursesByIDRow
@@ -37,11 +39,13 @@
   import { watch } from '$lib/utils/watch.svelte';
   import { onMount, tick } from 'svelte';
   import { SvelteSet } from 'svelte/reactivity';
-  import { PersistedArray, PersistedMap } from '$lib/utils/persist.svelte';
+  import { PersistedArray, PersistedMap, PersistedObject } from '$lib/utils/persist.svelte';
+  import Schedules from '$lib/components/Schedules/Schedules.svelte';
+  import type { SelectedSchedule } from '$lib/components/Schedules/Calendar';
 
   let { params }: PageProps = $props();
 
-  let request = $state<SearchClassesRequest | null>(null);
+  let classesRequest = $state<SearchClassesRequest | null>(null);
 
   let filterEnabled = $state(true);
   let search = $state('');
@@ -116,17 +120,17 @@
 
   const classes = createSearchClassesInfinite(
     () => parseInt(params.term),
-    () => request ?? {},
+    () => classesRequest ?? {},
     undefined,
     () => ({
       query: {
-        enabled: request !== null,
+        enabled: classesRequest !== null,
         placeholderData: keepPreviousData
       }
     })
   );
-
-  const loading = $derived(classes.isFetching);
+  const classesLoading = $derived(classes.isFetching);
+  const classItems = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
 
   const searchClasses = () => {
     const nextRequest: SearchClassesRequest = {};
@@ -146,7 +150,7 @@
 
     if (nextRequest.search === undefined && nextRequest.filter === undefined) return;
 
-    request = nextRequest;
+    classesRequest = nextRequest;
   };
 
   const maybeFetchNextPage = async () => {
@@ -171,8 +175,6 @@
     return () => resizeObserver.disconnect();
   });
 
-  const items = $derived(classes.data?.pages.flatMap((page) => page.items) ?? []);
-
   const term = () => params.term;
   const _selectedClasses = new PersistedMap<
     TypedListCoursesByIDRow['id'],
@@ -184,6 +186,7 @@
     (classes) => new SvelteSet(classes)
   );
   const selectedClasses = new PersistedArray<SelectedClassType>(`${term()}-selected-classes`);
+  const selectedSchedule = new PersistedObject<SelectedSchedule>(`${term()}-selected-schedule`);
 
   watch(
     () => _selectedClasses.value,
@@ -192,7 +195,7 @@
         const newCourse = [...curr.keys()].find((k) => !prev.has(k))!;
         const newClasses = curr.get(newCourse)!;
 
-        const item = items.find((item) => item.course.id === newCourse)!;
+        const item = classItems.find((item) => item.course.id === newCourse)!;
         const classMap = new Map(item.classes.map((c) => [c.id, c]));
 
         const selectedClass: SelectedClassType = {
@@ -207,17 +210,29 @@
 
         selectedClasses.replace(selectedClasses.filter((c) => c.course.id !== removedCourse));
       } else {
-        const [updatedCourse, updatedClasses] = [...curr.entries()].find(
-          ([id, classes]) => prev.get(id)!.size !== classes.size
+        const updatedCourse = [...curr.keys()].find(
+          (k) => prev.get(k)!.size !== curr.get(k)!.size
         )!;
 
-        const item = items.find((item) => item.course.id === updatedCourse)!;
-        const classMap = new Map(item.classes.map((c) => [c.id, c]));
-
+        const prevClasses = prev.get(updatedCourse)!;
+        const currClasses = curr.get(updatedCourse)!;
         const course = selectedClasses.find((c) => c.course.id === updatedCourse)!;
-        course.classes = Array.from(updatedClasses, (id) => classMap.get(id)!).toSorted(
-          (a, b) => a.number - b.number
-        );
+
+        if (currClasses.size < prevClasses.size) {
+          // removal, no need to lookup in classItems
+          course.classes = [...course.classes.filter((cl) => currClasses.has(cl.id))];
+        } else {
+          // lookup added class information in classItems
+          const addedClasses = currClasses.difference(prevClasses);
+
+          const item = classItems.find((item) => item.course.id === updatedCourse)!;
+          const classMap = new Map(item.classes.map((c) => [c.id, c]));
+
+          course.classes = [
+            ...course.classes,
+            ...Array.from(addedClasses, (id) => classMap.get(id)!)
+          ].toSorted((a, b) => a.number - b.number);
+        }
       }
     },
     false
@@ -250,7 +265,7 @@
 </script>
 
 <div class="flex h-full flex-col gap-2 p-3">
-  <h1 class="mb-1 text-xl font-bold">{getTerm(params.term)}</h1>
+  <h1 class="mb-1 text-xl font-bold">{getTermDisplay(params.term)}</h1>
 
   <div class="grid h-full min-h-0 grid-cols-12 divide-x-2 divide-gray-200 *:px-3">
     <div class="col-span-2 flex flex-col overflow-hidden">
@@ -279,11 +294,11 @@
     <div class="col-span-4 flex min-h-0 flex-col gap-2">
       <h2 class="text-lg font-semibold">Available Classes</h2>
       <div class="flex items-center gap-2">
-        <InputGroup.Root class="flex-1" data-disabled={loading}>
+        <InputGroup.Root class="flex-1" data-disabled={classesLoading}>
           <InputGroup.Input
             placeholder="Search classes (ENC1102, Programming, Schwartz, Carleton, etc.)"
             bind:value={search}
-            disabled={loading}
+            disabled={classesLoading}
             onkeydown={(e) => {
               if (e.key === 'Enter') {
                 searchClasses();
@@ -291,7 +306,7 @@
             }}
           />
           <InputGroup.Addon align="inline-end">
-            {#if loading}
+            {#if classesLoading}
               <Loader class="animate-spin" />
             {/if}
           </InputGroup.Addon>
@@ -302,7 +317,7 @@
           size="icon"
           aria-label="Filter"
           onclick={() => (filterEnabled = !filterEnabled)}
-          disabled={loading}
+          disabled={classesLoading}
         >
           <Funnel />
         </Button>
@@ -311,7 +326,7 @@
           variant="outline"
           size="icon"
           aria-label="Search"
-          disabled={loading}
+          disabled={classesLoading}
           onclick={searchClasses}
         >
           <Search />
@@ -324,7 +339,7 @@
         {fields}
         {options}
         hidden={filterEnabled}
-        disabled={loading}
+        disabled={classesLoading}
       />
 
       {#if classes.isError}
@@ -342,7 +357,7 @@
             {#if classes.data === undefined}
               <h4 class="text-sm font-medium">Please input a search query.</h4>
             {:else}
-              {#each items as item (item.course.id)}
+              {#each classItems as item (item.course.id)}
                 <Course
                   course={item.course}
                   sections={item.classes}
@@ -361,6 +376,26 @@
         </ScrollArea>
       {/if}
     </div>
-    <div class="col-span-4"></div>
+    <div class="col-span-6 min-h-0">
+      <Tabs.Root class="h-full" value="schedules">
+        <Tabs.List>
+          <Tabs.Trigger value="schedules">Schedules</Tabs.Trigger>
+          <Tabs.Trigger value="map">Map</Tabs.Trigger>
+        </Tabs.List>
+        <div class="h-full overflow-hidden rounded-md border *:h-full">
+          <Tabs.Content value="schedules">
+            <Schedules
+              term={parseInt(params.term)}
+              selectedClasses={selectedClasses.value}
+              bind:selectedSchedule={
+                () => selectedSchedule.value,
+                (schedule: SelectedSchedule | null) => selectedSchedule.set(schedule)
+              }
+            />
+          </Tabs.Content>
+          <Tabs.Content value="map">MAP</Tabs.Content>
+        </div>
+      </Tabs.Root>
+    </div>
   </div>
 </div>
