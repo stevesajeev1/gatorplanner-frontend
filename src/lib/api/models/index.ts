@@ -5,9 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 
+export * from './classChoice.ts';
 export * from './customBuilding.ts';
 export * from './customInstructor.ts';
 export * from './customMeetTime.ts';
+export * from './customMeetTimeDaysItem.ts';
 export * from './errorDetail.ts';
 export * from './errorModel.ts';
 export * from './filter.ts';
@@ -56,12 +58,19 @@ export * from './filterRuleTime.ts';
 export * from './filterRuleTimeField.ts';
 export * from './filterRuleTimeFilter.ts';
 export * from './filterRuleTimeType.ts';
+export * from './generateSchedulesParams.ts';
+export * from './generateSchedulesRequest.ts';
+export * from './generateSchedulesRequestDayRestrictionsItem.ts';
+export * from './generateSchedulesRequestSortBy.ts';
+export * from './paginatedResponseSchedule.ts';
 export * from './paginatedResponseSearchClassResponseItem.ts';
+export * from './schedule.ts';
 export * from './searchClassesParams.ts';
 export * from './searchClassesRequest.ts';
 export * from './searchClassesRequestFilter.ts';
 export * from './searchClassesRequestFilterGlue.ts';
 export * from './searchClassResponseItem.ts';
+export * from './selectedClass.ts';
 export * from './typedListBuildingsRow.ts';
 export * from './typedListClassesByIDRow.ts';
 export * from './typedListCoursesByIDRow.ts';

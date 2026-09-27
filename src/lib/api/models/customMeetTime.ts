@@ -5,10 +5,11 @@
  * OpenAPI spec version: 1.0.0
  */
 import type { CustomBuilding } from './customBuilding.ts';
+import type { CustomMeetTimeDaysItem } from './customMeetTimeDaysItem.ts';
 
 export interface CustomMeetTime {
   building: CustomBuilding | null;
-  days: string[];
+  days: CustomMeetTimeDaysItem[];
   period_end: string;
   period_start: string;
   time_end: string;
