@@ -7,10 +7,15 @@
   import VirtualList from '@humanspeak/svelte-virtual-list';
   import type { SelectedClass } from '../Course/SelectedClass';
   import Calendar from './Calendar.svelte';
-  import { GenerateSchedulesRequestSortBy, type GenerateSchedulesRequest } from '$lib/api/models';
+  import {
+    GenerateSchedulesRequestDayRestrictionsItem,
+    GenerateSchedulesRequestSortBy,
+    type GenerateSchedulesRequest
+  } from '$lib/api/models';
   import { createGenerateSchedulesInfinite } from '$lib/api/endpoints';
   import { parseTermNumber } from '$lib/utils/term';
   import type { ScheduleClass, SelectedSchedule } from './Calendar';
+  import { formatDay } from '$lib/utils/day';
 
   type Props = {
     term: number;
@@ -21,6 +26,7 @@
   let { term, selectedClasses, selectedSchedule = $bindable() }: Props = $props();
 
   let sortBy = $state<GenerateSchedulesRequestSortBy | null>(null);
+  let dayRestrictions = $state<GenerateSchedulesRequestDayRestrictionsItem[]>([]);
 
   const schedulesRequest = $derived<GenerateSchedulesRequest | null>(
     selectedClasses.length > 0
@@ -29,7 +35,8 @@
             course_id: c.course.id,
             class_ids: c.classes.map((cl) => cl.id)
           })),
-          sort_by: sortBy ?? undefined
+          sort_by: sortBy ?? undefined,
+          day_restrictions: dayRestrictions
         }
       : null
   );
@@ -110,31 +117,52 @@
 <div class="flex h-full flex-col">
   <!-- Options -->
   <div class="flex p-2">
-    <Select.Root
-      type="single"
-      allowDeselect={true}
-      bind:value={
-        () => sortBy ?? undefined,
-        (v: GenerateSchedulesRequestSortBy | '' | undefined) => {
-          sortBy = v === '' || v === undefined ? null : v;
+    <div class="w-4/5">
+      <Select.Root
+        type="single"
+        allowDeselect={true}
+        bind:value={
+          () => sortBy ?? undefined,
+          (v: GenerateSchedulesRequestSortBy | '' | undefined) => {
+            sortBy = v === '' || v === undefined ? null : v;
+          }
         }
-      }
-    >
-      <Select.Trigger class="grow">
-        {#if sortBy === null}
-          <span class="text-muted-foreground">Sort By</span>
-        {:else}
-          {sortByOptions[sortBy]}
-        {/if}
-      </Select.Trigger>
+      >
+        <Select.Trigger class="w-full">
+          {#if sortBy === null}
+            <span class="text-muted-foreground">Sort By</span>
+          {:else}
+            {sortByOptions[sortBy]}
+          {/if}
+        </Select.Trigger>
 
-      <Select.Content>
-        {#each Object.entries(sortByOptions) as option, i (i)}
-          {@const [value, display] = option}
-          <Select.Item {value}>{display}</Select.Item>
-        {/each}
-      </Select.Content>
-    </Select.Root>
+        <Select.Content>
+          {#each Object.entries(sortByOptions) as option, i (i)}
+            {@const [value, display] = option}
+            <Select.Item {value}>{display}</Select.Item>
+          {/each}
+        </Select.Content>
+      </Select.Root>
+    </div>
+
+    <div class="w-1/5">
+      <Select.Root type="multiple" bind:value={dayRestrictions}>
+        <Select.Trigger class="w-full">
+          {#if dayRestrictions.length === 0}
+            <span class="text-muted-foreground">Avoid</span>
+          {:else}
+            <span class="truncate">{dayRestrictions.join(', ')}</span>
+          {/if}
+        </Select.Trigger>
+
+        <Select.Content>
+          {#each Object.entries(GenerateSchedulesRequestDayRestrictionsItem) as option, i (i)}
+            {@const [value, display] = option}
+            <Select.Item {value}>{formatDay(display)}</Select.Item>
+          {/each}
+        </Select.Content>
+      </Select.Root>
+    </div>
   </div>
   <!-- Selected -->
   {#if selectedSchedule}
