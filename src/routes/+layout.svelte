@@ -1,6 +1,6 @@
 <script lang="ts">
   import './layout.css';
-  import favicon from '$lib/assets/favicon.svg';
+  import favicon from '$lib/assets/favicon.png';
 
   import * as NavigationMenu from '$lib/components/ui/navigation-menu/index.js';
   import { Separator } from '$lib/components/ui/separator';
@@ -9,6 +9,7 @@
   import GithubIcon from '@iconify-svelte/fa6-brands/github';
   import { Button } from '$lib/components/ui/button/index.js';
 
+  import { dev } from '$app/env';
   import { resolve } from '$app/paths';
 
   import { QueryClientProvider } from '@tanstack/svelte-query';
@@ -17,7 +18,10 @@
   let { data, children } = $props();
 </script>
 
-<svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<svelte:head>
+  <link rel="icon" href={favicon} />
+  <title>GatorPlanner</title>
+</svelte:head>
 
 <QueryClientProvider client={data.queryClient}>
   <div class="flex h-dvh w-dvw flex-col">
@@ -44,7 +48,7 @@
         </NavigationMenu.List>
       </NavigationMenu.Root>
       <!-- Profile -->
-      <a class="aspect-square rounded-full border-2" href={resolve('/profile')}>Me</a>
+      <!-- <a class="aspect-square rounded-full border-2" href={resolve('/profile')}>Me</a> -->
     </div>
     <Separator />
     <!-- Content -->
@@ -79,5 +83,7 @@
       </div>
     </div>
   </div>
-  <SvelteQueryDevtools initialIsOpen={false} />
+  {#if dev}
+    <SvelteQueryDevtools initialIsOpen={false} />
+  {/if}
 </QueryClientProvider>
