@@ -10,6 +10,7 @@
  */
 export type CustomBuilding = {
   code: string;
+  id: string;
   name: string;
   /** @nullable */
   room: string | null;

@@ -5,8 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 
-export interface TypedListBuildingsRow {
+export interface TypedBuilding {
   code: string;
+  id: string;
   /** @nullable */
   latitude: number | null;
   /** @nullable */

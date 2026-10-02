@@ -11,18 +11,21 @@ const TERM_NAMES = Object.fromEntries(
 ) as Record<(typeof TERM_CODES)[keyof typeof TERM_CODES], keyof typeof TERM_CODES>;
 
 export const getCurrentTerm = (): string => {
-  const now = new Date();
-  const year = now.getFullYear();
+  // const now = new Date();
+  // const year = now.getFullYear();
 
-  let termCode: number;
+  // let termCode: number;
 
-  if (now.getMonth() < 4) {
-    termCode = TERM_CODES.Spring;
-  } else if (now.getMonth() < 7) {
-    termCode = TERM_CODES.Summer;
-  } else {
-    termCode = TERM_CODES.Fall;
-  }
+  // if (now.getMonth() < 4) {
+  //   termCode = TERM_CODES.Spring;
+  // } else if (now.getMonth() < 7) {
+  //   termCode = TERM_CODES.Summer;
+  // } else {
+  //   termCode = TERM_CODES.Fall;
+  // }
+
+  const year = 2027;
+  const termCode = TERM_CODES.Spring;
 
   return `2${String(year).slice(-2)}${termCode}`;
 };

@@ -71,6 +71,6 @@ export * from './searchClassesRequestFilter.ts';
 export * from './searchClassesRequestFilterGlue.ts';
 export * from './searchClassResponseItem.ts';
 export * from './selectedClass.ts';
-export * from './typedListBuildingsRow.ts';
+export * from './typedBuilding.ts';
 export * from './typedListClassesByIDRow.ts';
 export * from './typedListCoursesByIDRow.ts';

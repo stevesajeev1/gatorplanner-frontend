@@ -14,6 +14,7 @@
   import FilterBuilder from '$lib/components/FilterBuilder/FilterBuilder.svelte';
   import type { Field, Options } from '$lib/components/FilterBuilder/FilterBuilder';
   import Course from '$lib/components/Course/Course.svelte';
+  import ScheduleMap from '$lib/components/Map/Map.svelte';
 
   import {
     FilterRuleNumberPeriodValue,
@@ -42,7 +43,7 @@
   import Schedules from '$lib/components/Schedules/Schedules.svelte';
   import type { SelectedSchedule } from '$lib/components/Schedules/Calendar';
 
-  let { params }: PageProps = $props();
+  let { params, data }: PageProps = $props();
 
   let classesRequest = $state<SearchClassesRequest | null>(null);
 
@@ -392,7 +393,13 @@
               }
             />
           </Tabs.Content>
-          <Tabs.Content value="map">MAP</Tabs.Content>
+          <Tabs.Content value="map">
+            <ScheduleMap
+              mapStyle={data.mapStyle}
+              selectedSchedule={selectedSchedule.value}
+              buildings={buildings.data ?? []}
+            />
+          </Tabs.Content>
         </div>
       </Tabs.Root>
     </div>

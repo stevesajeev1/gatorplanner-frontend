@@ -116,8 +116,8 @@
 
 <div class="flex h-full flex-col">
   <!-- Options -->
-  <div class="flex p-2">
-    <div class="w-4/5">
+  <div class="flex gap-2 p-2">
+    <div class="grow-4">
       <Select.Root
         type="single"
         allowDeselect={true}
@@ -145,7 +145,7 @@
       </Select.Root>
     </div>
 
-    <div class="w-1/5">
+    <div class="grow">
       <Select.Root type="multiple" bind:value={dayRestrictions}>
         <Select.Trigger class="w-full">
           {#if dayRestrictions.length === 0}
@@ -156,16 +156,15 @@
         </Select.Trigger>
 
         <Select.Content>
-          {#each Object.entries(GenerateSchedulesRequestDayRestrictionsItem) as option, i (i)}
-            {@const [value, display] = option}
-            <Select.Item {value}>{formatDay(display)}</Select.Item>
+          {#each Object.values(GenerateSchedulesRequestDayRestrictionsItem) as option, i (i)}
+            <Select.Item value={option}>{formatDay(option)}</Select.Item>
           {/each}
         </Select.Content>
       </Select.Root>
     </div>
   </div>
   <!-- Selected -->
-  {#if selectedSchedule}
+  {#if selectedSchedule !== null}
     <div class="border-6 border-gray-400 p-2">
       <span class="text-lg font-bold">Selected Schedule</span>
       <Calendar
@@ -189,7 +188,11 @@
       >An error occurred when trying to generate schedules. Please try again later.</span
     >
   {:else if scheduleItems.length === 0}
-    <span class="p-3">No possible schedules found.</span>
+    {#if selectedSchedule !== null}
+      <span class="p-3">No more possible schedules found.</span>
+    {:else}
+      <span class="p-3">No possible schedules found.</span>
+    {/if}
   {:else}
     <div class="min-h-0 grow">
       <VirtualList items={scheduleItems} onLoadMore={fetchNextPage} hasMore={schedules.hasNextPage}>

@@ -13,6 +13,7 @@
   import { formatDay } from '$lib/utils/day';
   import { formatTime } from '$lib/utils/time';
   import type { ScheduleClass } from './Calendar';
+  import { getCourseHue } from '$lib/utils/hue';
 
   type Props = {
     term: Term;
@@ -66,21 +67,6 @@
     return (
       (term === 'Summer' ? SUMMER_PERIODS : REGULAR_PERIODS).findIndex((p) => p === period) + 2
     );
-  };
-
-  const hash = (s: string) => {
-    let hash = 0;
-    for (let i = 0; i < s.length; i++) {
-      hash = (hash << 5) - hash + s.charCodeAt(i);
-      hash |= 0;
-    }
-    return hash;
-  };
-
-  const getCourseHue = (id: string) => {
-    const value = hash(id);
-    const hue = value % 360;
-    return hue;
   };
 
   let copied = $state(false);

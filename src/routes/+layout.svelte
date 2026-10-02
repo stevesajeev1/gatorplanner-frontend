@@ -38,7 +38,7 @@
           <NavigationMenu.Item>
             <NavigationMenu.Link
               href={resolve('/semester/[term=terms]', { term: getCurrentTerm() })}
-              >Semester Plan</NavigationMenu.Link
+              data-sveltekit-reload>Semester Plan</NavigationMenu.Link
             >
           </NavigationMenu.Item>
         </NavigationMenu.List>
