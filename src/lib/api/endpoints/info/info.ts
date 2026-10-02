@@ -14,7 +14,7 @@ import type {
   QueryKey
 } from '@tanstack/svelte-query';
 
-import type { ErrorModel, TypedListBuildingsRow } from '../../models';
+import type { ErrorModel, TypedBuilding } from '../../models';
 
 import { customFetch } from '../../mutators/custom-fetch.ts';
 
@@ -30,8 +30,8 @@ export const getListBuildingsUrl = () => {
  */
 export const listBuildings = async (
   options?: Parameters<typeof customFetch>[1]
-): Promise<TypedListBuildingsRow[]> => {
-  return customFetch<TypedListBuildingsRow[]>(getListBuildingsUrl(), {
+): Promise<TypedBuilding[]> => {
+  return customFetch<TypedBuilding[]>(getListBuildingsUrl(), {
     ...options,
     method: 'GET'
   });

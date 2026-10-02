@@ -9,12 +9,12 @@ export type GenerateSchedulesRequestSortBy =
   (typeof GenerateSchedulesRequestSortBy)[keyof typeof GenerateSchedulesRequestSortBy];
 
 export const GenerateSchedulesRequestSortBy = {
+  most_compact: 'most_compact',
   fewest_days: 'fewest_days',
   most_balanced: 'most_balanced',
   instructor_rating: 'instructor_rating',
   earliest_start: 'earliest_start',
   latest_start: 'latest_start',
   earliest_end: 'earliest_end',
-  latest_end: 'latest_end',
-  most_compact: 'most_compact'
+  latest_end: 'latest_end'
 } as const;
