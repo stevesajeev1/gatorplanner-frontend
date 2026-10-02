@@ -1,6 +1,5 @@
 <script lang="ts">
   import logo from '$lib/assets/logo.png';
-  import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
   import * as Card from '$lib/components/ui/card/index.js';
   import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
   import Calendars from '@lucide/svelte/icons/calendars';
@@ -11,7 +10,7 @@
   import { getCurrentTerm } from '$lib/utils/term';
 </script>
 
-<div class="h-full flex justify-center items-center">
+<div class="flex h-full items-center justify-center">
   <div class="flex flex-col gap-10">
     <div>
       <div class="flex items-center justify-center gap-5">
@@ -62,7 +61,7 @@
         </Card.Footer>
       </Card.Root>
     </div>
-    <div class="text-sm text-right">
+    <div class="text-right text-sm">
       <span class="font-bold">Disclaimer:</span>
       <span>Not officially affiliated with UF.</span>
     </div>
