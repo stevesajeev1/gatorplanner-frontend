@@ -57,7 +57,7 @@ const fetchMapStyle = async (fetchFn: typeof fetch): Promise<MapStyle> => {
   };
 };
 
-export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
+export const load: PageServerLoad = async ({ fetch }) => {
   return {
     mapStyle: await fetchMapStyle(fetch)
   };

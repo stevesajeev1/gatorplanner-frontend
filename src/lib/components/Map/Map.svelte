@@ -2,7 +2,7 @@
   import 'temporal-polyfill/global';
   import { CustomMeetTimeDaysItem } from '$lib/api/models/customMeetTimeDaysItem';
   import {
-    Map as MapComponent,
+    Map,
     MapControls,
     MapMarker,
     MapRoute,
@@ -17,6 +17,7 @@
   import { formatTime, parseTime } from '$lib/utils/time';
   import type { TypedBuilding } from '$lib/api/models';
   import { getCourseHue } from '$lib/utils/hue';
+  import { SvelteMap } from 'svelte/reactivity';
 
   type Props = {
     mapStyle: MapStyle;
@@ -75,7 +76,7 @@
   });
 
   const stops = $derived.by(() => {
-    const buildingMap = new Map<string, MapClassMeetTimes>();
+    const buildingMap = new SvelteMap<string, MapClassMeetTimes>();
 
     for (const dayClassMeetTime of dayClassMeetTimes) {
       const building = dayClassMeetTime.meetTime.building;
@@ -98,7 +99,7 @@
 </script>
 
 <div class="h-full w-full">
-  <MapComponent
+  <Map
     center={[-82.3479459, 29.6450138]}
     zoom={15}
     styles={mapStyle}
@@ -120,8 +121,11 @@
 
         <MarkerPopup class="p-1">
           {#each stop.classes as cls, i (i)}
-          {@const hue = getCourseHue(cls.scheduleClass.course.id)}
-            <div class="p-1 flex gap-1 border-l-2 border-l-[hsl(var(--hue)_100%_60%)] bg-[hsl(var(--hue)_100%_90%)]" style={`--hue: ${hue}`}>
+            {@const hue = getCourseHue(cls.scheduleClass.course.id)}
+            <div
+              class="flex gap-1 border-l-2 border-l-[hsl(var(--hue)_100%_60%)] bg-[hsl(var(--hue)_100%_90%)] p-1"
+              style={`--hue: ${hue}`}
+            >
               <span class="font-semibold">{cls.scheduleClass.course.code}</span>
               <Separator class="bg-foreground/40" orientation="vertical" />
               <span
@@ -156,5 +160,5 @@
         </Select.Root>
       </div>
     {/if}
-  </MapComponent>
+  </Map>
 </div>

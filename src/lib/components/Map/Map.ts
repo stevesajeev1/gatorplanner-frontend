@@ -1,7 +1,7 @@
 import 'temporal-polyfill/global';
 import type { StyleSpecification } from 'maplibre-gl';
 import type { ScheduleClass } from '../Schedules/Calendar';
-import type { CustomMeetTime, TypedBuilding } from '$lib/api/models';
+import type { CustomMeetTime } from '$lib/api/models';
 
 export type MapStyle = {
   light: StyleSpecification;

@@ -128,11 +128,11 @@
   html {
     @apply font-sans;
   }
-	.maplibregl-popup-content {
-		@apply bg-transparent! shadow-none! p-0! rounded-none!;
+  .maplibregl-popup-content {
+    @apply rounded-none! bg-transparent! p-0! shadow-none!;
   }
-	.maplibregl-popup-tip {
-		@apply hidden!;
+  .maplibregl-popup-tip {
+    @apply hidden!;
   }
 }
 
