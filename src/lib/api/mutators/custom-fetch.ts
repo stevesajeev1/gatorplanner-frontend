@@ -1,7 +1,9 @@
-import { PUBLIC_API_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
+
+const API_URL = env.PUBLIC_API_URL;
 
 const getUrl = (contextUrl: string): string => {
-  return new URL(contextUrl, PUBLIC_API_URL).toString();
+  return new URL(contextUrl, API_URL).toString();
 };
 
 export type CustomFetchOptions = RequestInit & {
