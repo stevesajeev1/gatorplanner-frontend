@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# SvelteKit / build output
+.svelte-kit/
+build/
+
+# Git
+.git/
+.github/
+.git*
+
+# Environment / secrets
+.env*
+
+# Editor / OS
+.vscode/
+
+# Docker
+deploy/
+
+# Misc
+.prettierignore
+eslint.config.js
+orval.config.ts
+prettier.config.js
+README.md
