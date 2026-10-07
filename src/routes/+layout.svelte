@@ -4,10 +4,11 @@
 
   import * as NavigationMenu from '$lib/components/ui/navigation-menu/index.js';
   import { Separator } from '$lib/components/ui/separator';
+  import { Button } from '$lib/components/ui/button/index.js';
   import { getCurrentTerm } from '$lib/utils/term';
   import LinkedinIcon from '@iconify-svelte/fa6-brands/linkedin';
   import GithubIcon from '@iconify-svelte/fa6-brands/github';
-  import { Button } from '$lib/components/ui/button/index.js';
+  import Heart from '@lucide/svelte/icons/heart';
 
   import { dev } from '$app/env';
   import { resolve } from '$app/paths';
@@ -60,7 +61,11 @@
     <div
       class="grid grid-cols-[auto_auto] items-center justify-center divide-x-2 divide-pink-400 p-1 *:px-3"
     >
-      <span>Made with ❤️ by Steve Sajeev</span>
+      <div class="flex items-center gap-1">
+        <span>Made with</span>
+        <Heart class="size-5" fill="#fb64b6" strokeWidth="0" />
+        <span> by Steve Sajeev</span>
+      </div>
       <div class="flex gap-2">
         <Button
           variant="outline"
